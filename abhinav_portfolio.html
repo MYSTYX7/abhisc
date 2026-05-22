@@ -1,0 +1,2142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abhinav Singh Chauhan — AWS DevOps Engineer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Stalinist+One&family=Tomorrow&family=Titillium+Web&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+   ROOT VARIABLES — merged from both designs
+   ============================================================ */
+      :root {
+        /* Design 1 base palette */
+        --red: #c8102e;
+        --red-bright: #e74c3c;
+        --red-dark: #7b1a1a;
+        --red-glow: rgba(192, 57, 43, 0.18);
+        --bg: #0a0a0a;
+        --bg2: #111111;
+        --bg3: #181818;
+        --text: #e8e0d8;
+        --text-muted: #8a7f78;
+        --border: rgba(192, 57, 43, 0.22);
+        /* Design 2 aliases (same hex, semantic names) */
+        --black: #0a0a0a;
+        --black2: #111111;
+        --black3: #1a1a1a;
+        --black4: #222222;
+        --white: #f0ede8;
+        --white-dim: #a89e92;
+        --white-faint: #3d3530;
+        --gold: #c8902b;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Barlow", sans-serif;
+        font-weight: 300;
+        line-height: 1.7;
+        overflow-x: hidden;
+        cursor: crosshair;
+      }
+
+      /* Film-grain noise overlay — Design 2 */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.4;
+      }
+
+      bold {
+        font-weight: bold;
+        color: var(--gold);
+      }
+
+      /* ── SCROLLBAR — Design 1 ── */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--red-dark);
+      }
+
+      /* ============================================================
+   SIDE NAVBAR — Design 1
+   ============================================================ */
+      nav {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 210px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.96);
+        border-right: 2px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 0;
+        z-index: 100;
+        backdrop-filter: blur(8px);
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 1.5rem 2rem;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 1.5rem;
+      }
+      .nav-logo .dd-logo {
+        width: 100px;
+        height: 50px;
+        border: 2px solid var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Stalinist One", sans-serif;
+        font-size: 22px;
+        color: var(--red);
+        letter-spacing: 1px;
+        position: relative;
+      }
+      .nav-logo .dd-logo::before {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border: 1px solid var(--red-dark);
+      }
+      nav a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0.6rem 1.5rem;
+        font-family: "Tomorrow", sans-serif;
+        font-size: 14px;
+        letter-spacing: 2px;
+        color: var(--white-dim);
+        text-decoration: none;
+        text-transform: uppercase;
+        transition:
+          color 0.2s,
+          background 0.2s;
+        position: relative;
+      }
+      nav a::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--red);
+        transform: scaleY(0);
+        transition: transform 0.2s;
+      }
+      nav a:hover,
+      nav a.active {
+        color: var(--text);
+        background: rgba(192, 57, 43, 0.07);
+      }
+      nav a:hover::before,
+      nav a.active::before {
+        transform: scaleY(1);
+      }
+      nav a .nav-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--red);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      nav a:hover .nav-dot,
+      nav a.active .nav-dot {
+        opacity: 1;
+      }
+      .nav-socials {
+        margin-top: auto;
+        padding: 1.5rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+      }
+      .nav-socials a {
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 14px;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .nav-socials a::before {
+        display: none;
+      }
+      .nav-socials a:hover {
+        color: var(--red);
+        border-color: var(--red);
+        background: transparent;
+      }
+
+      /* Nav resume download button */
+      .nav-resume-btn {
+        margin: 2.5rem 1.5rem 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0.6rem 1rem;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--red);
+        text-decoration: none;
+        border: 1px solid var(--red-dark);
+        background: var(--black3);
+        position: relative;
+        overflow: hidden;
+        transition:
+          color 0.25s,
+          border-color 0.25s,
+          background 0.25s;
+        cursor: pointer;
+      }
+      .nav-resume-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--red);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.25s ease;
+        z-index: 0;
+      }
+      .nav-resume-btn:hover {
+        color: #fff;
+        border-color: var(--red);
+      }
+      .nav-resume-btn:hover::before {
+        transform: scaleY(1);
+      }
+      .nav-resume-btn svg,
+      .nav-resume-btn span {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ============================================================
+   MAIN LAYOUT — Design 1
+   ============================================================ */
+      main {
+        margin-left: 200px;
+      }
+      section {
+        padding: 5rem 4rem;
+        position: relative;
+      }
+      section:not(:last-child) {
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* Page numbers — Design 1 */
+      .page-num {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 13px;
+        color: var(--red-dark);
+        letter-spacing: 3px;
+      }
+
+      /* Section label — Design 1 */
+      .sec-label {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: bold;
+        font-size: 13px;
+        letter-spacing: 4px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+      /* .sec-divider {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--red-dark);
+  float: right;
+  margin-top: 0.2rem;
+} */
+      .sec-divider {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: var(--white-faint);
+        float: right;
+        margin-top: 0.2rem;
+      }
+
+      /* Section headers — Design 2 (used for Summary, Experience, Certifications, Education) */
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 50px;
+        border-bottom: 1px solid var(--white-faint);
+        padding-bottom: 20px;
+      }
+      .section-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 44px;
+        color: var(--white);
+        letter-spacing: 3px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .section-title .icon {
+        width: 34px;
+        height: 34px;
+        background: var(--red);
+        clip-path: polygon(
+          50% 0%,
+          100% 25%,
+          100% 75%,
+          50% 100%,
+          0% 75%,
+          0% 25%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .section-num {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: var(--white-faint);
+      }
+
+      /* ============================================================
+   HOME SECTION — Design 2
+   ============================================================ */
+      #home {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        min-height: 100vh;
+        padding: 0 4rem;
+        overflow: hidden;
+        position: relative;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 60% 80% at 75% 50%,
+          #3a0a12 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .hero-scan-lines {
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(200, 16, 46, 0.015) 3px,
+          rgba(200, 16, 46, 0.015) 4px
+        );
+        pointer-events: none;
+      }
+      .hero-left {
+        position: relative;
+        z-index: 2;
+      }
+      .hero-tag {
+        font-family: "Stalinist One", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--red-bright);
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: fadeInUp 0.8s ease 0.2s both;
+      }
+      /* .hero-tag::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--red);
+} */
+      h1.hero-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(80px, 10vw, 130px);
+        line-height: 0.88;
+        letter-spacing: 2px;
+        color: var(--white);
+        animation: fadeInUp 0.8s ease 0.4s both;
+      }
+      h1.hero-title .accent {
+        color: var(--red);
+      }
+      .hero-sub {
+        font-size: 18px;
+        font-weight: 300;
+        color: var(--white-dim);
+        line-height: 1.7;
+        max-width: 500px;
+        margin: 15px 0 40px;
+        animation: fadeInUp 0.8s ease 0.6s both;
+      }
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--white);
+        text-decoration: none;
+        border: 1px solid var(--red);
+        padding: 14px 28px;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.3s;
+        animation: fadeInUp 0.8s ease 0.8s both;
+      }
+      .hero-cta::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--red);
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        z-index: -1;
+      }
+      .hero-cta:hover::before {
+        transform: translateX(0);
+      }
+      .hero-cta span {
+        font-size: 16px;
+      }
+
+      /* Hero secondary download CTA */
+      .hero-cta-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .hero-cta-dl {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        text-decoration: none;
+        border: 1px solid var(--white-faint);
+        padding: 14px 24px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
+        cursor: pointer;
+        animation: fadeInUp 0.8s ease 1s both;
+      }
+      .hero-cta-dl::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(200, 16, 46, 0.12);
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        z-index: 0;
+      }
+      .hero-cta-dl:hover {
+        color: var(--white);
+        border-color: var(--red);
+      }
+      .hero-cta-dl:hover::before {
+        transform: translateX(0);
+      }
+      .hero-cta-dl svg,
+      .hero-cta-dl span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-right {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        animation: fadeInUp 1s ease 0.3s both;
+      }
+      .hero-graphic {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-circle {
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 40% 40%,
+          #3a0a12,
+          #1a0508,
+          transparent
+        );
+        border: 1px solid rgba(200, 16, 46, 0.2);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-circle::before {
+        content: "";
+        position: absolute;
+        inset: -20px;
+        border-radius: 50%;
+        border: 1px solid rgba(200, 16, 46, 0.1);
+      }
+      .hero-circle::after {
+        content: "";
+        position: absolute;
+        inset: -40px;
+        border-radius: 50%;
+        border: 1px solid rgba(200, 16, 46, 0.06);
+      }
+      .hero-dd {
+        font-family: "Stalinist One", sans-serif;
+        font-size: 100px;
+        color: rgba(200, 16, 46, 0.12);
+        letter-spacing: -10px;
+        line-height: 1;
+        user-select: none;
+      }
+      .hero-counter {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .counter-line {
+        width: 1px;
+        height: 8px;
+        background: var(--white-faint);
+      }
+      .counter-line.active {
+        background: var(--red);
+        height: 12px;
+      }
+      .hero-page-num {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--white-dim);
+        letter-spacing: 2px;
+      }
+      .scroll-indicator {
+        position: absolute;
+        bottom: 40px;
+        left: 4rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        animation: fadeInUp 1s ease 1.5s both;
+      }
+      .scroll-line {
+        width: 40px;
+        height: 1px;
+        background: var(--red);
+        animation: expandLine 1.5s ease infinite;
+      }
+      @keyframes expandLine {
+        0%,
+        100% {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scaleX(0.5);
+          opacity: 0.5;
+        }
+      }
+
+      /* ============================================================
+   SUMMARY SECTION — Design 2
+   ============================================================ */
+      #summary {
+        background: var(--black2);
+      }
+
+      .summary-grid-d2 {
+        display: grid;
+        grid-template-rows: 0.5fr 1fr;
+        gap: 60px;
+        align-items: start;
+      }
+      .summary-text-d2 {
+        display: grid;
+        /* grid-template-columns: 1fr 1fr; */
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--white-dim);
+        line-height: 2;
+        border-left: 2px solid var(--red);
+        padding-left: 24px;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+      }
+      .stat-box {
+        background: var(--black3);
+        padding: 24px 24px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.2s;
+      }
+      .stat-box:hover {
+        background: var(--black4);
+      }
+      .stat-box::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--red);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+        transform-origin: left;
+      }
+      .stat-box:hover::before {
+        transform: scaleX(1);
+      }
+      .stat-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 52px;
+        color: var(--red);
+        line-height: 1;
+        display: block;
+      }
+      .stat-label {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--white-dim);
+        margin-top: 6px;
+        display: block;
+      }
+
+      /* ============================================================
+   SKILLS SECTION — Design 1
+   ============================================================ */
+      #skills {
+        background: var(--black);
+      }
+
+      .skills-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 28px;
+        letter-spacing: 2px;
+        color: var(--text);
+        margin-bottom: 2rem;
+      }
+      .skills-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+      .skill-category-d1 h3 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 18px;
+        letter-spacing: 3px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 1.7rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .skill-tags-d1 {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .skill-tag-d1 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        color: var(--text);
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+        position: relative;
+        background: var(--black4);
+        clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      }
+      .skill-tag-d1::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 3px;
+        background: var(--red);
+        transition: width 0.3s;
+      }
+      .skill-tag-d1:hover {
+        border-color: var(--red);
+        color: var(--text);
+        background: var(--red-dark);
+      }
+      .skill-tag-d1:hover::before {
+        width: 100%;
+      }
+
+      /* ============================================================
+   EXPERIENCE SECTION — Design 2
+   ============================================================ */
+      #experience {
+        background: var(--black2);
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 40px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(to bottom, var(--red), transparent);
+      }
+      .timeline-item {
+        position: relative;
+        margin-bottom: 60px;
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 40px;
+      }
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -46px;
+        top: 8px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--red);
+        border: 2px solid var(--black2);
+        box-shadow: 0 0 0 2px var(--red);
+      }
+      .timeline-date {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        color: var(--red);
+        text-transform: uppercase;
+        padding-top: 4px;
+      }
+      .timeline-role {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 28px;
+        color: var(--white);
+        letter-spacing: 2px;
+        line-height: 1;
+      }
+      .timeline-company {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: var(--white-dim);
+        text-transform: uppercase;
+        margin: 6px 0 16px;
+      }
+      .timeline-bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .timeline-bullets li {
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--white-dim);
+        padding-left: 20px;
+        position: relative;
+        line-height: 1.6;
+      }
+      .timeline-bullets li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: var(--red);
+        font-size: 10px;
+        top: 3px;
+      }
+      .timeline-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 16px;
+      }
+      .timeline-tag {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        border: 1px solid var(--red-dark);
+        padding: 3px 10px;
+        background: rgba(200, 16, 46, 0.08);
+      }
+
+      /* ============================================================
+   PROJECTS SECTION — Design 1
+   ============================================================ */
+      #projects {
+        background: var(--black);
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        margin-top: 2rem;
+      }
+      .project-card {
+        background: var(--bg2);
+        padding: 2rem;
+        position: relative;
+        transition: background 0.2s;
+      }
+      .project-card:hover {
+        background: var(--bg3);
+      }
+      .project-card::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 3px;
+        height: 0;
+        background: var(--red);
+        transition: height 0.3s;
+      }
+      .project-card:hover::after {
+        height: 100%;
+      }
+      .project-icon-d1 {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        color: var(--red);
+      }
+      .project-card h3 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+      }
+      .project-card p {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+      .project-link-d1 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 12px;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-decoration: none;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-bottom: 1px solid var(--red-dark);
+        padding-bottom: 2px;
+        transition: border-color 0.2s;
+      }
+      .project-link-d1:hover {
+        border-color: var(--red);
+      }
+      .tech-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 1rem;
+      }
+      .chip {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border: 1px solid var(--red-dark);
+        color: var(--red);
+        background: var(--red-glow);
+      }
+
+      /* ============================================================
+   CERTIFICATIONS SECTION — Design 2
+   ============================================================ */
+      #certifications {
+        background: var(--black2);
+      }
+
+      .certs-grid {
+        display: grid;
+        /* grid-template-columns: repeat(2, 1fr); */
+        gap: 2px;
+      }
+      .cert-item {
+        background: var(--black3);
+        padding: 32px 28px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.2s;
+      }
+      .cert-item:hover {
+        background: var(--black4);
+      }
+      .cert-dot-d2 {
+        width: 10px;
+        height: 10px;
+        background: var(--red);
+        border-radius: 50%;
+        margin-top: 5px;
+        flex-shrink: 0;
+        box-shadow: 0 0 8px rgba(200, 16, 46, 0.5);
+      }
+      .cert-name {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--white);
+        letter-spacing: 1px;
+        line-height: 1.3;
+        margin-bottom: 4px;
+      }
+      .cert-org {
+        font-size: 12px;
+        font-weight: 300;
+        color: var(--white-dim);
+        letter-spacing: 1px;
+      }
+
+      .cert-links {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* ============================================================
+   EDUCATION SECTION — Design 2
+   ============================================================ */
+      #education {
+        background: var(--black);
+      }
+
+      .edu-grid-d2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+      }
+      .edu-item {
+        background: var(--black2);
+        padding: 40px 36px;
+        position: relative;
+        overflow: hidden;
+      }
+      .edu-year {
+        font-family: "Stalinist One", sans-serif;
+        font-size: 48px;
+        color: rgba(200, 16, 46, 0.08);
+        position: absolute;
+        right: 20px;
+        bottom: 15px;
+        line-height: 1;
+        letter-spacing: 3px;
+        user-select: none;
+      }
+      .edu-institution {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 6px;
+      }
+      .edu-degree {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 24px;
+        color: var(--white);
+        letter-spacing: 2px;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+      .edu-period {
+        font-size: 14px;
+        font-weight: 300;
+        color: var(--white-dim);
+      }
+      .edu-detail {
+        font-size: 24px;
+        color: var(--gold);
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 600;
+        letter-spacing: 1px;
+        position: relative;
+        bottom: -20px;
+      }
+
+      /* ============================================================
+   CONTACT SECTION — Design 1
+   ============================================================ */
+      .contact-section {
+        background: var(--bg2);
+      }
+
+      .contact-grid-d1 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-top: 2rem;
+      }
+      .contact-quote-d1 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .quote-mark {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 80px;
+        color: var(--red-dark);
+        line-height: 0.7;
+        margin-bottom: 0.5rem;
+      }
+      .quote-text {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 84px;
+        line-height: 1.1;
+        color: var(--text);
+      }
+      .quote-text .accent {
+        color: var(--red);
+      }
+      .contact-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        border: 3px solid var(--border);
+        color: var(--white-dim);
+        text-decoration: none;
+        font-size: 16px;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+        position: relative;
+      }
+      .contact-link::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        background: var(--red-glow);
+        transition: width 0.3s;
+      }
+      .contact-link:hover {
+        border-color: var(--red);
+        color: var(--text);
+      }
+      .contact-link:hover::before {
+        width: 100%;
+      }
+      .contact-link span {
+        position: relative;
+        z-index: 1;
+      }
+      .contact-link .link-icon {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--red);
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ============================================================
+   FOOTER — Design 1
+   ============================================================ */
+      footer {
+        text-align: center;
+        margin-left: 200px;
+        padding: 1rem;
+        font-family: "Stalinist One", sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: var(--red-bright);
+        text-transform: uppercase;
+        border-top: 1px solid var(--border);
+      }
+
+      /* ============================================================
+   ANIMATIONS
+   ============================================================ */
+      /* Design 1 fade-up (used in Skills, Projects) */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* Design 2 fadeInUp (used in hero) */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* D1 timeline pulse — removed from experience (D2 style), kept subtle */
+      @keyframes pulse-red {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(192, 57, 43, 0);
+        }
+        50% {
+          box-shadow: 0 0 14px 3px rgba(192, 57, 43, 0.3);
+        }
+      }
+      .timeline-item::before {
+        animation: pulse-red 3s infinite;
+      }
+
+      /* ============================================================
+   RESPONSIVE
+   ============================================================ */
+      @media (max-width: 1024px) {
+        nav {
+          display: none;
+        }
+        main {
+          margin-left: 0;
+        }
+        #home {
+          grid-template-columns: 1fr;
+          padding: 60px 2rem;
+        }
+        .hero-right {
+          display: none;
+        }
+        section {
+          padding: 4rem 2rem;
+        }
+        .summary-grid-d2 {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .skills-columns {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .timeline-item {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        .certs-grid {
+          grid-template-columns: 1fr;
+        }
+        .edu-grid-d2 {
+          grid-template-columns: 1fr;
+        }
+        .contact-grid-d1 {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+      @media (max-width: 640px) {
+        h1.hero-title {
+          font-size: 64px;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════════════════════
+     SIDE NAVBAR — Design 1
+     ═══════════════════════════════════════════════════════════ -->
+    <nav>
+      <div class="nav-logo">
+        <div class="dd-logo"><a href="" class="dd-logo">ASC</a></div>
+      </div>
+      <a href="#home" class="active"
+        ><div class="nav-dot"></div>
+        Home</a
+      >
+      <a href="#summary"
+        ><div class="nav-dot"></div>
+        Summary</a
+      >
+      <a href="#skills"
+        ><div class="nav-dot"></div>
+        Tech Skills</a
+      >
+      <a href="#experience"
+        ><div class="nav-dot"></div>
+        Experience</a
+      >
+      <a href="#projects"
+        ><div class="nav-dot"></div>
+        Projects</a
+      >
+      <a href="#certifications"
+        ><div class="nav-dot"></div>
+        Certifications</a
+      >
+      <a href="#education"
+        ><div class="nav-dot"></div>
+        Education</a
+      >
+      <a href="#contact"
+        ><div class="nav-dot"></div>
+        Contact</a
+      >
+      <a
+        href="Abhinav_DevOps-Engineer_Resume.pdf"
+        download="Abhinav_DevOps-Engineer_Resume.pdf"
+        class="nav-resume-btn"
+      >
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        <span>Resume</span>
+      </a>
+      <div class="nav-socials">
+        <a href="https://github.com/MYSTYX7" title="GitHub" target="_blank">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+            />
+          </svg>
+        </a>
+        <a
+          href="https://linkedin.com/in/abhisc"
+          title="LinkedIn"
+          target="_blank"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+            />
+            <rect x="2" y="9" width="4" height="12" />
+            <circle cx="4" cy="4" r="2" />
+          </svg>
+        </a>
+        <a href="mailto:cool.abhi@outlook.com" title="Email">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════════════════════════ -->
+    <main>
+      <!-- ── HOME SECTION — Design 2 ── -->
+      <section id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-scan-lines"></div>
+
+        <div class="hero-left">
+          <h1 class="hero-title">
+            <span class="accent">Abhinav</span>
+            SINGH<br />
+            CHAUHAN<br />
+          </h1>
+          <div class="hero-tag">AWS DevOps Engineer</div>
+          <p class="hero-sub">
+            I build resilient cloud infrastructure, automate everything that can
+            be automated, and deliver value at scale with zero tolerance for
+            downtime.
+          </p>
+          <div class="hero-cta-row">
+            <a href="#experience" class="hero-cta">
+              Explore My Work <span>➤</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-graphic">
+            <div class="hero-circle">
+              <div class="hero-dd">ASC</div>
+            </div>
+          </div>
+          <div class="hero-counter">
+            <!-- <div class="hero-page-num">01</div>
+        <div class="counter-line active"></div>
+        <div class="counter-line"></div>
+        <div class="counter-line"></div>
+        <div class="counter-line"></div>
+        <div class="counter-line"></div>
+        <div class="counter-line"></div>
+        <div class="counter-line"></div>
+        <div class="hero-page-num">08</div> -->
+          </div>
+        </div>
+
+        <div class="scroll-indicator">
+          <div class="scroll-line"></div>
+          Scroll
+        </div>
+      </section>
+
+      <!-- ── SUMMARY SECTION — Design 2 ── -->
+      <section id="summary">
+        <div class="sec-label fade-up">
+          Summary <span class="sec-divider">// 02</span>
+        </div>
+        <div class="skills-title fade-up">WHAT I DO</div>
+
+        <div class="summary-grid-d2 fade-up">
+          <span class="summary-text-d2">
+            <p>
+              <bold>AWS Solutions Architect </bold> &amp;
+              <bold>Hashicorp Terraform Associate</bold> with hands-on
+              experience building <bold>AWS</bold> &amp;
+              <bold> Azure Cloud</bold> infrastructure, automation workflows,
+              and cloud-native deployments.
+            </p>
+            <p>
+              Skilled in <bold>CI/CD pipelines</bold>, <bold>Terraform</bold>,
+              <bold>Saltstack</bold>, <bold>Ansible</bold>,
+              <bold>Kubernetes</bold>, <bold>Docker</bold>, and
+              <bold>Linux</bold>, with dashboard monitoring using
+              <bold>Prometheus</bold> &amp; <bold>Grafana</bold> and
+              <bold>Loki</bold>. Focused on improving reliability, speeding
+              deployments, and ruthless cloud automation.
+            </p>
+          </span>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="stat-num">2+</span>
+              <span class="stat-label">Years of Industry Experience</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">30%</span>
+              <span class="stat-label">Faster Provisioning</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">99.9%</span>
+              <span class="stat-label">Uptime Achieved</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">20+</span>
+              <span class="stat-label">Runbooks Authored</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SKILLS SECTION — Design 1 ── -->
+      <section id="skills">
+        <!-- <div class="page-num">03</div> -->
+        <div class="sec-label fade-up">
+          Technical Skills <span class="sec-divider">// 03</span>
+        </div>
+        <div class="skills-title fade-up">BUILT TO SCALE</div>
+
+        <div class="skills-columns fade-up">
+          <div class="skill-category-d1">
+            <h3>AWS Services</h3>
+            <div class="skill-tags-d1">
+              <span class="skill-tag-d1">EC2</span>
+              <span class="skill-tag-d1">S3</span>
+              <span class="skill-tag-d1">VPC</span>
+              <span class="skill-tag-d1">IAM</span>
+              <span class="skill-tag-d1">ELB</span>
+              <span class="skill-tag-d1">Lambda</span>
+              <span class="skill-tag-d1">CloudWatch</span>
+              <span class="skill-tag-d1">EKS</span>
+            </div>
+          </div>
+
+          <div class="skill-category-d1">
+            <h3>Infrastructure as Code &amp; Configuration Management</h3>
+            <div class="skill-tags-d1">
+              <span class="skill-tag-d1">Terraform</span>
+              <span class="skill-tag-d1">Ansible</span>
+              <span class="skill-tag-d1">SaltStack</span>
+            </div>
+          </div>
+
+          <div class="skill-category-d1">
+            <h3>CI/CD Tools &amp; Container Orchestration</h3>
+            <div class="skill-tags-d1">
+              <span class="skill-tag-d1">Jenkins</span>
+              <span class="skill-tag-d1">ArgoCD</span>
+              <span class="skill-tag-d1">GitHub Actions</span>
+              <span class="skill-tag-d1">Docker</span>
+              <span class="skill-tag-d1">Kubernetes</span>
+            </div>
+          </div>
+
+          <div class="skill-category-d1">
+            <h3>Monitoring &amp; Observability</h3>
+            <div class="skill-tags-d1">
+              <span class="skill-tag-d1">Prometheus</span>
+              <span class="skill-tag-d1">Grafana</span>
+              <span class="skill-tag-d1">Loki</span>
+              <span class="skill-tag-d1">Splunk</span>
+              <span class="skill-tag-d1">CloudWatch</span>
+            </div>
+          </div>
+
+          <div class="skill-category-d1">
+            <h3>Scripting &amp; Operating System</h3>
+            <div class="skill-tags-d1">
+              <span class="skill-tag-d1">Bash</span>
+              <span class="skill-tag-d1">Python</span>
+              <span class="skill-tag-d1">JavaScript</span>
+              <span class="skill-tag-d1">Linux (KVM & QEMU)</span>
+              <span class="skill-tag-d1">Windows</span>
+            </div>
+          </div>
+
+          <div class="skill-category-d1">
+            <h3>Databases</h3>
+            <div class="skill-tags-d1">
+              <span class="skill-tag-d1">Aerospike</span>
+              <span class="skill-tag-d1">PostgreSQL</span>
+              <span class="skill-tag-d1">MongoDB</span>
+              <span class="skill-tag-d1">MySQL</span>
+              <span class="skill-tag-d1">MariaDB</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── EXPERIENCE SECTION — Design 2 ── -->
+      <section id="experience">
+        <div class="sec-label fade-up">
+          Work Experience <span class="sec-divider">// 04</span>
+        </div>
+        <div class="skills-title fade-up">IN THE FIELD</div>
+
+        <div class="timeline fade-up">
+          <!-- Freelance -->
+          <div class="timeline-item">
+            <div class="timeline-date">Apr 2024 — May 2026</div>
+            <div class="timeline-content">
+              <div class="timeline-role">Cloud &amp; AWS DevOps Consultant</div>
+              <div class="timeline-company">
+                Freelance (UNIQODE Phygital, Dataviv Technologies, Vobble, and
+                many more) · Remote
+              </div>
+              <ul class="timeline-bullets">
+                <li>
+                  Delivered project-based
+                  <bold>AWS infrastructure solutions</bold> for startups and
+                  small teams, designing and automating cloud environments using
+                  <bold>Terraform</bold> to support <bold>Agile SDLC</bold> and
+                  rapid iteration.
+                </li>
+
+                <li>
+                  Built and optimized <bold>CI/CD pipelines</bold> using
+                  <bold>GitHub Actions</bold> and <bold>Jenkins</bold>, enabling
+                  continuous integration and deployment of
+                  <bold>Dockerized applications</bold> to
+                  <bold>Amazon EKS</bold>.
+                </li>
+
+                <li>
+                  Provided hands-on <bold>Kubernetes (EKS)</bold> consulting —
+                  cluster setup, deployments, <bold>auto-scaling</bold>,
+                  <bold>RBAC</bold>, and <bold>NGINX Ingress</bold>,
+                  collaborating with developers during
+                  <bold>Agile sprint cycles</bold>.
+                </li>
+
+                <li>
+                  Implemented <bold>monitoring</bold>, <bold>logging</bold>,
+                  <bold>incident troubleshooting</bold>, and
+                  <bold>AWS cost optimization</bold> using
+                  <bold>Prometheus</bold>, <bold>Grafana</bold>, and
+                  <bold>CloudWatch</bold>.
+                </li>
+              </ul>
+              <div class="timeline-tags">
+                <span class="timeline-tag">AWS</span>
+                <span class="timeline-tag">Terraform</span>
+                <span class="timeline-tag">EKS</span>
+                <span class="timeline-tag">GitHub Actions</span>
+                <span class="timeline-tag">Jenkins</span>
+                <span class="timeline-tag">Prometheus</span>
+                <span class="timeline-tag">Grafana</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AlmaBetter -->
+          <div class="timeline-item">
+            <div class="timeline-date">Jan 2023 — Feb 2024</div>
+            <div class="timeline-content">
+              <div class="timeline-role">AWS DevOps Engineer</div>
+              <div class="timeline-company">AlmaBetter · Bengaluru</div>
+              <ul class="timeline-bullets">
+                <li>
+                  Built and maintained
+                  <bold>AWS infrastructure</bold> (<bold>EC2</bold>,
+                  <bold>S3</bold>, <bold>VPC</bold>, <bold>IAM</bold>),
+                  improving system security and increasing network performance
+                  by <bold>~20%</bold> through <bold>VPC optimization</bold>.
+                </li>
+
+                <li>
+                  Standardized <bold>Infrastructure-as-Code (IaC)</bold> using
+                  <bold>Terraform</bold> across multi-environment deployments,
+                  reducing provisioning time by <bold>~30%</bold> and
+                  eliminating <bold>configuration drift</bold>.
+                </li>
+
+                <li>
+                  Designed <bold>Grafana dashboards</bold> for
+                  <bold>Kubernetes cluster monitoring</bold> using pod metrics
+                  and logs, improving <bold>MTTR by ~30%</bold> through
+                  real-time alerting visibility.
+                </li>
+
+                <li>
+                  Stabilized <bold>EKS deployments</bold> using
+                  <bold>Helm-based releases</bold>,
+                  <bold>Horizontal Pod Autoscaling (HPA)</bold>,
+                  <bold>liveness/readiness probes</bold>,
+                  <bold>RBAC policies</bold>, and controlled rollout strategies.
+                </li>
+
+                <li>
+                  Authored <bold>20+ operational runbooks</bold>, accelerating
+                  onboarding productivity by <bold>~50%</bold> and improving
+                  issue resolution consistency.
+                </li>
+
+                <li>
+                  Ensured <bold>~99.9% uptime</bold> for production workloads
+                  through detailed <bold>log reviews</bold> and
+                  <bold>system health checks</bold> during
+                  <bold>on-call rotation</bold> and outages.
+                </li>
+              </ul>
+              <div class="timeline-tags">
+                <span class="timeline-tag">AWS</span>
+                <span class="timeline-tag">EKS</span>
+                <span class="timeline-tag">Helm Charts</span>
+                <span class="timeline-tag">Terraform</span>
+                <span class="timeline-tag">Grafana</span>
+                <span class="timeline-tag">Prometheus</span>
+                <span class="timeline-tag">Horizontal Pod Autoscaling</span>
+                <span class="timeline-tag">RBAC</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AT & Co. -->
+          <div class="timeline-item">
+            <div class="timeline-date">Jan 2022 — Dec 2022</div>
+            <div class="timeline-content">
+              <div class="timeline-role">Fullstack Engineer</div>
+              <div class="timeline-company">AT &amp; Co. · Remote</div>
+              <ul class="timeline-bullets">
+                <li>
+                  Deployed scalable web applications using
+                  <bold>AWS Lambda</bold> and <bold>API Gateway</bold>, reducing
+                  page load times by <bold>~35%</bold>.
+                </li>
+
+                <li>
+                  Optimized <bold>Jenkins CI/CD pipeline</bold> deployment
+                  automation, reducing manual effort and cutting deployment time
+                  by <bold>~30%</bold>; performed detailed
+                  <bold>log analysis</bold>, reducing incident resolution time
+                  by <bold>~15%</bold>.
+                </li>
+
+                <li>
+                  Automated repetitive operational tasks with
+                  <bold>Ansible</bold>, improving deployment reliability and
+                  lowering configuration errors by <bold>~40%</bold>.
+                </li>
+              </ul>
+              <div class="timeline-tags">
+                <span class="timeline-tag">AWS</span>
+                <span class="timeline-tag">Lambda</span>
+                <span class="timeline-tag">API Gateway</span>
+                <span class="timeline-tag">Jenkins</span>
+                <span class="timeline-tag">Ansible</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PROJECTS SECTION — Design 1 ── -->
+      <section id="projects">
+        <div class="sec-label fade-up">
+          Personal Projects <span class="sec-divider">// O5</span>
+        </div>
+        <div class="skills-title fade-up">BUILT IN THE SHADOWS</div>
+
+        <div class="projects-grid fade-up">
+          <div class="project-card">
+            <div class="project-icon-d1">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
+            <h2>Salt4Loki</h2>
+            <p style="font-size: 18px">
+              Scripted automation for Grafana Loki deployment across 10+ servers
+              using Salt Master–Minion architecture for HA deployment, reducing
+              manual setup time by ~80%. Executed high-availability ring
+              topology configuration via Salt states, improving log ingestion
+              reliability by ~40%.
+            </p>
+            <div class="tech-chips" style="margin-bottom: 1rem">
+              <span class="chip">SaltStack</span>
+              <span class="chip">Grafana Loki</span>
+              <span class="chip">High Available</span>
+            </div>
+            <a
+              href="https://github.com/MYSTYX7/Salt4Loki"
+              class="project-link-d1"
+              target="_blank"
+              >View on GitHub →</a
+            >
+          </div>
+
+          <div class="project-card">
+            <div class="project-icon-d1">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+              </svg>
+            </div>
+            <h2>Particle41 — EKS with Terraform</h2>
+            <p style="font-size: 18px">
+              Built and deployed a containerized microservice on AWS EKS using
+              Terraform and Kubernetes, following production-grade architecture.
+              Implemented VPC, EKS, and IAM provisioning with
+              Terraforminfrastructure with clean separation of app, infra, and
+              K8s layers.
+            </p>
+            <div class="tech-chips" style="margin-bottom: 1rem">
+              <span class="chip">EKS</span>
+              <span class="chip">Terraform</span>
+              <span class="chip">Kubernetes</span>
+              <span class="chip">VPC</span>
+              <span class="chip">IAM</span>
+            </div>
+            <a
+              href="https://github.com/MYSTYX7/Particle41"
+              class="project-link-d1"
+              target="_blank"
+              >View on GitHub →</a
+            >
+          </div>
+
+          <div class="project-card">
+            <div class="project-icon-d1">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h2>Infrastructure Automation</h2>
+            <p style="font-size: 18px">
+              Multi-cloud infrastructure automation playbooks and reusable
+              Terraform modules for AWS environments, enabling consistent and
+              repeatable provisioning across dev, staging, and production.
+              Explore additional monitoring dashboards and cloud-native projects
+              on GitHub.
+            </p>
+            <div class="tech-chips" style="margin-bottom: 1rem">
+              <span class="chip">Linux</span>
+              <span class="chip">Terraform</span>
+              <span class="chip">AWS</span>
+              <span class="chip">Ansible</span>
+              <span class="chip">Jenkins</span>
+            </div>
+            <a
+              href="https://github.com/MYSTYX7"
+              class="project-link-d1"
+              target="_blank"
+              >github.com/MYSTYX7 →</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CERTIFICATIONS SECTION — Design 2 ── -->
+      <section id="certifications">
+        <div class="sec-label fade-up">
+          Certifications <span class="sec-divider">// O6</span>
+        </div>
+        <div class="skills-title fade-up">PROVEN CREDENTIALS</div>
+
+        <div class="certs-grid fade-up">
+          <div class="cert-item">
+            <div class="cert-dot-d2"></div>
+            <div>
+              <div class="cert-name">
+                <a
+                  href="https://www.credly.com/badges/7851b8b3-3ba0-4a16-9514-08b16ca41cad/public_url"
+                  class="cert-links"
+                  target="_blank"
+                >
+                  Certified Solutions Architect – Associate (SAA-C03) 🔗</a
+                >
+              </div>
+              <div class="cert-org">Amazon Web Services (AWS)</div>
+            </div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-dot-d2"></div>
+            <div>
+              <div class="cert-name">
+                <a
+                  href="https://www.credly.com/badges/70e57983-3f01-4605-9ace-09bd438f4ccb/public_url"
+                  class="cert-links"
+                  target="_blank"
+                  >Certified Terraform Associate (HCTA0-003) 🔗</a
+                >
+              </div>
+              <div class="cert-org">HashiCorp</div>
+            </div>
+          </div>
+
+          <div class="cert-item">
+            <div class="cert-dot-d2"></div>
+            <div>
+              <div class="cert-name">
+                <a
+                  href="https://drive.google.com/file/d/1pwUm1i-JV2V--jRHyVoZDDsmf-u84R-O/view"
+                  class="cert-links"
+                  target="_blank"
+                  >PG Certification in Cloud Computing &amp; DevOps 🔗</a
+                >
+              </div>
+              <div class="cert-org">
+                Indian Institute of Technology, Roorkee
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── EDUCATION SECTION — Design 2 ── -->
+      <section id="education">
+        <div class="sec-label fade-up">
+          Education <span class="sec-divider">// O7</span>
+        </div>
+        <div class="skills-title fade-up">FORGED IN THE CLASSROOM</div>
+
+        <div class="edu-grid-d2 fade-up">
+          <div class="edu-item">
+            <div class="edu-year">2025</div>
+            <div class="edu-institution">
+              Indian Institute of Technology, Roorkee
+            </div>
+            <div class="edu-degree">
+              Cloud Computing &amp; DevOps Executive Program
+            </div>
+            <div class="edu-period">Jul 2024 – Jun 2025</div>
+          </div>
+
+          <div class="edu-item">
+            <div class="edu-year">2020</div>
+            <div class="edu-institution">
+              Guru Gobind Singh Indraprastha University, Delhi
+            </div>
+            <div class="edu-degree">
+              B.Tech — Electrical &amp; Electronics Engineering
+            </div>
+            <div class="edu-period">Aug 2016 – Jul 2020</div>
+            <div class="edu-detail">8.23 CGPA</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CONTACT SECTION — Design 1 ── -->
+      <section id="contact" class="contact-section">
+        <div class="sec-label fade-up">
+          Let's Connect <span class="sec-divider">// O8</span>
+        </div>
+        <!-- <div class="skills-title fade-up">FORGED IN THE CLASSROOM</div> -->
+
+        <!-- <div class="page-num">08</div> -->
+        <div class="contact-grid-d1 fade-up">
+          <div class="contact-quote-d1">
+            <!-- <div class="sec-label">Let's Connect</div> -->
+            <!-- <div class="quote-mark">"</div> -->
+            <div class="quote-text">
+              I DON'T FEAR DOWNTIME.<br />
+              I <span class="accent">ELIMINATE</span> IT.
+            </div>
+          </div>
+          <div>
+            <div class="sec-label">Contact Links</div>
+            <div class="contact-links">
+              <a href="mailto:cool.abhi@outlook.com" class="contact-link">
+                <div class="link-icon">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                    />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </div>
+                <span>cool.abhi@outlook.com</span>
+              </a>
+              <a href="tel:+918130510011" class="contact-link">
+                <div class="link-icon">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.53 2 2 0 0 1 3.6 1.37h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.99 16.92z"
+                    />
+                  </svg>
+                </div>
+                <span>(+91) 8130510011</span>
+              </a>
+              <a
+                href="https://linkedin.com/in/abhisc"
+                class="contact-link"
+                target="_blank"
+              >
+                <div class="link-icon">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                    />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </div>
+                <span>linkedin.com/in/abhisc</span>
+              </a>
+              <a
+                href="https://github.com/MYSTYX7"
+                class="contact-link"
+                target="_blank"
+              >
+                <div class="link-icon">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                    />
+                  </svg>
+                </div>
+                <span>github.com/MYSTYX7</span>
+              </a>
+              <a class="contact-link" style="cursor: default">
+                <div class="link-icon">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <span>Delhi, India</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      EAT &nbsp;&bull;&nbsp; SLEEP &nbsp;&bull;&nbsp; DESIGN &nbsp;&bull;&nbsp;
+      AUTOMATE &nbsp;&bull;&nbsp; REPEAT
+    </footer>
+
+    <script>
+      /* ── Active nav highlight on scroll ── */
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+      const navObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              navLinks.forEach((a) => a.classList.remove("active"));
+              const active = document.querySelector(
+                `nav a[href="#${e.target.id}"]`,
+              );
+              if (active) active.classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.35 },
+      );
+
+      sections.forEach((s) => navObserver.observe(s));
+
+      /* ── Fade-up on scroll (Design 1 elements) ── */
+      const fades = document.querySelectorAll(".fade-up");
+      const fadeObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              setTimeout(() => e.target.classList.add("visible"), i * 80);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+
+      fades.forEach((f) => fadeObserver.observe(f));
+    </script>
+  </body>
+</html>
