@@ -610,10 +610,44 @@ body[data-page=teams] .pts-only,body[data-page=teams] .slot-only,body[data-page=
 #poster[data-lay=mono] .sdi span{color:rgba(17,17,17,.85)}
 #poster .tg{display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:22px}
 #poster .tile{width:var(--tw)}
+body[data-page=top] .pts-only,body[data-page=top] .slot-only,body[data-page=top] .sched-only,body:not([data-page=top]) .top-only{display:none}
+#poster[data-page=top][data-lay]{width:1000px}
+#poster[data-page=top][data-lay] .org,#poster[data-page=top][data-lay] .t1,#poster[data-page=top][data-lay] .t2{text-align:center;justify-content:center}
+#poster[data-page=top][data-lay] .t1,#poster[data-page=top][data-lay] .t2{margin-left:auto;margin-right:auto;max-width:calc(100% - 160px)}
+#poster[data-page=top][data-lay] .mlab{margin-left:auto;margin-right:auto;text-align:center}
+#poster[data-page=top][data-lay] .gt{justify-content:center}
+#poster .tcs{margin:6px 0 26px}
+#poster .tc{display:flex;gap:16px;margin-top:18px;align-items:stretch}
+#poster .tc.rev{flex-direction:row-reverse}
+#poster .tcp{flex:none;position:relative;box-sizing:border-box;width:210px;min-height:176px;border:3px solid var(--a);background:rgba(0,0,0,.35)}
+#poster .tci{position:absolute;left:8px;top:8px;right:8px;bottom:8px;display:flex;align-items:center;justify-content:center;font:400 56px var(--f1,'Bebas Neue'),sans-serif;color:var(--a)}
+#poster .tcb{flex:1;min-width:0;display:flex;align-items:center;gap:22px;padding:16px 30px;box-sizing:border-box;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff}
+#poster .tcr{flex:none;font:italic 400 80px var(--f1,'Bebas Neue'),sans-serif;color:var(--a);line-height:1}
+#poster .tcn{flex:1;min-width:0;text-align:center}
+#poster .tcn b{display:block;font:400 48px var(--f1,'Bebas Neue'),sans-serif;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:400}
+#poster .tcn i{display:block;height:2px;background:var(--a);margin:6px 0 8px}
+#poster .tcn small{font:400 32px var(--f1,'Bebas Neue'),sans-serif;text-transform:uppercase;letter-spacing:.05em;opacity:.92}
+#poster[data-lay=mono] .tcp{border-color:#111;background:#fff}
+#poster[data-lay=mono] .tcb{background:#fff;border:1px solid #111;color:#111}
+#poster[data-lay=frost] .tcp{border:0;background:rgba(255,255,255,.5)}
+#poster[data-lay=frost] .tcb{background:#fff;border:0;color:#0d2a5c}
+#poster[data-lay=frost] .tcr{color:#0d2a5c}
+#poster[data-lay=torn] .tcb{background:#efefef;border:0;color:#161616}
+#poster[data-lay=royal] .tcp,#poster[data-lay=grand] .tcp{border-color:#f1d68b}
+#poster[data-lay=royal] .tcb,#poster[data-lay=grand] .tcb{border-color:rgba(241,214,139,.5)}
+#poster[data-lay=royal] .tcr,#poster[data-lay=grand] .tcr{color:#f1d68b}
+#poster[data-lay=royal] .tcn i,#poster[data-lay=grand] .tcn i{background:#f1d68b}
+#poster[data-lay=pro] .tcb{border:0;border-left:8px solid var(--a);background:rgba(255,255,255,.07)}
+#poster[data-lay=aurora] .tcp{border:2px solid rgba(255,255,255,.7);border-radius:20px}
+#poster[data-lay=aurora] .tci{border-radius:14px}
+#poster[data-lay=aurora] .tcb{border-radius:20px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4)}
+.tqrow{display:grid;grid-template-columns:44px minmax(0,1fr) 64px 30px;gap:6px;align-items:center;margin-top:6px}
+.tqrow .lgb{display:grid;place-items:center;width:44px;height:44px;border:1px dashed var(--line);border-radius:8px;cursor:pointer;color:var(--mut);background:var(--field) center/contain no-repeat;font-size:20px}
+#poster[data-lay=frost][data-page=top]{padding-bottom:210px}
 </style>
 </head>
 <body>
-<div class="nav" role="tablist"><span class="brand"><i></i>BGMI Studio</span><button id="navPts" class="on" data-p="pts" role="tab">Points Table</button><button id="navSlots" data-p="slots" role="tab">Slot List</button><button id="navSched" data-p="sched" role="tab">Schedule</button><button id="navTeams" data-p="teams" role="tab">Teams Playing</button></div>
+<div class="nav" role="tablist"><span class="brand"><i></i>BGMI Studio</span><button id="navPts" class="on" data-p="pts" role="tab">Points Table</button><button id="navSlots" data-p="slots" role="tab">Slot List</button><button id="navSched" data-p="sched" role="tab">Schedule</button><button id="navTeams" data-p="teams" role="tab">Teams Playing</button><button id="navTop" data-p="top" role="tab">Top Players</button></div>
 <div class="app">
  <div class="panel">
   <h2 id="ptitle">Points table</h2>
@@ -671,6 +705,19 @@ body[data-page=teams] .pts-only,body[data-page=teams] .slot-only,body[data-page=
   <label style="display:flex;gap:6px;align-items:center"><input id="csvAdd" type="checkbox" style="width:auto"> Add to existing teams instead of replacing</label>
   <div class="acts"><button id="addT">Add team</button><button id="delM">Delete this match</button></div>
   <p class="hint">Pick a match tab to enter its results and generate that match's table. The Overall tab adds up every match. Leave position empty if a team did not play.</p>
+  </details>
+  <details class="grp top-only" open><summary class="gs">Top players</summary>
+   <label for="tqTag">Tag text (leave empty to hide it)</label><input id="tqTag">
+   <label for="tqStat">Stat label (shown before each value)</label><input id="tqStat" placeholder="e.g. FINISHES">
+   <div class="two"><label style="display:flex;gap:6px;align-items:center"><input id="tqAlt" type="checkbox" style="width:auto"> Alternate photo sides</label>
+   <label style="display:flex;gap:6px;align-items:center"><input id="tqRank" type="checkbox" style="width:auto"> Show rank (#1)</label></div>
+   <div class="lblrow"><label>Players</label><span class="cnt" id="tqCount">0</span></div>
+   <div class="srow hd"><span style="grid-column:1/3">Photo and name</span><span>Value</span><span></span></div>
+   <div id="tqRows"></div>
+   <div class="tools"><button id="tqAdd" type="button">+ Add player</button><button id="tqImp" type="button">Import top teams by kills</button><button id="tqClr" type="button">Remove all photos</button></div>
+   <input id="tqOne" type="file" accept="image/*" hidden>
+   <p class="hint">Click a square to upload a photo or logo. Photos are kept in the current session only.</p>
+   <label for="tqNote">Bottom note (leave empty to hide it)</label><textarea id="tqNote" rows="2"></textarea>
   </details>
   <details class="grp teams-only" open><summary class="gs">Teams playing</summary>
    <label for="tpTag">Tag text (leave empty to hide it)</label><input id="tpTag">
@@ -747,7 +794,7 @@ function stats(){
  }).filter(s=>cur==='all'||s.mp>0).sort((a,b)=>b.tot-a.tot||b.w-a.w||b.ps-a.ps||b.k-a.k);
 }
 const ini=n=>n.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()||'T';
-const lab=()=>{$('gen').textContent=page==='teams'?'Generate teams poster':page==='slots'?'Generate slot list image':page==='sched'?'Generate schedule image':cur==='all'?'Generate overall image':'Generate Match '+(cur+1)+' image'};
+const lab=()=>{$('gen').textContent=page==='top'?'Generate top players poster':page==='teams'?'Generate teams poster':page==='slots'?'Generate slot list image':page==='sched'?'Generate schedule image':cur==='all'?'Generate overall image':'Generate Match '+(cur+1)+' image'};
 const fs=()=>21;
 const IC={
 yt:'<svg viewBox="0 0 24 24" fill="#FF0000"><path fill-rule="evenodd" d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.200 0-7.800.4A2.500 2.500 0 0 0 2.400 7.200C2 8.800 2 12 2 12s0 3.200.4 4.800a2.500 2.500 0 0 0 1.800 1.800C5.800 19 12 19 12 19s6.200 0 7.800-.4a2.500 2.500 0 0 0 1.800-1.800c.4-1.600.4-4.800.4-4.800s0-3.200-.4-4.800zM10 15V9l5.200 3z"/></svg>',
@@ -770,6 +817,7 @@ function poster(){
  FS(P);
  if(page==='slots'){P.innerHTML=lg()+slotHTML();fit();return}
  if(page==='sched'){P.innerHTML=lg()+schedHTML();fit();return}
+ if(page==='top'){delete P.dataset.side;P.innerHTML=lg()+topHTML();fit();return}
  if(page==='teams'){if(TP.side)P.dataset.side=1;else delete P.dataset.side;P.innerHTML=lg()+teamsHTML();fit();return}
  const s=lim(stats());
  if(lay!=='classic'){P.innerHTML=lg()+alt(lay,s);fit();return};
@@ -890,8 +938,9 @@ $('reset').onclick=()=>{teams.forEach(t=>t.m=[]);editor()};
 ['org','t1','t2','t3','ig','yt','dc'].forEach(id=>$(id).oninput=poster);
 const TH={inferno:['#ff4a12','#b3200a'],cyber:['#7a2cff','#00e5ff'],gold:['#e8b43a','#7a5410'],toxic:['#2cff7a','#0b7a3a'],ice:['#4fb8ff','#1c5fc4'],crimson:['#ff1f4b','#7a0a22'],yellow:['#ffd400','#8a7000'],purple:['#9b3fd1','#5a1f90'],lime:['#b4f03c','#4c7a0a']};
 let theme='inferno',pat='stripes',rowst='classic',lay='classic',showLogo=true,LOGO=LOGO0,TLOGO=null;
-let page={'#slots':'slots','#sched':'sched','#teams':'teams'}[location.hash]||'pts';
+let page={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top'}[location.hash]||'pts';
 let SC={merge:true,title:'SCHEDULE',heads:['GROUP','IDP TIME','START TIME','MAP','DATE'],showDate:true,note:'QUALIFICATIONS BASED ON KILL+POINTS ONLY',rows:[['Group 1','6.50','7.00','Erangel'],['Group 1','7.40','7.50','Miramar'],['Group 2','7.50','8.00','Erangel'],['Group 2','8.40','8.50','Miramar'],['Group 3','8.50','9.00','Erangel'],['Group 3','9.40','9.50','Miramar']].map((a,i)=>({d:i<4?'08 Nov':'09 Nov',g:a[0],idp:a[1],start:a[2],map:a[3]}))};
+let TQ={tag:'TOP 03 PLAYERS',stat:'FINISHES',alt:true,rank:true,note:'',items:[{name:'Player 1',val:'12',img:''},{name:'Player 2',val:'10',img:''},{name:'Player 3',val:'8',img:''}]};
 let TP={tag:'GRAND FINALS',title:'TEAMS PLAYING',cols:4,size:88,names:false,side:false,note:'',teams:Array.from({length:16},(_,i)=>({name:'Team '+(i+1),logo:''}))};
 let SL={start:1,cols:1,title:'SLOT LIST',note:'',teams:Array.from({length:16},(_,i)=>({n:String(i+1),name:'Team '+(i+1)}))};
 function swatches(){$('themes').innerHTML=Object.keys(TH).map(k=>`<button data-t="${k}" title="${k}" aria-label="${k} theme" class="${k===theme?'on':''}" style="background:linear-gradient(135deg,${TH[k][0]},${TH[k][1]})"></button>`).join('')}
@@ -981,7 +1030,7 @@ function lgUI(){$('lgctl').innerHTML=LS.map(g=>`<p class="hint" style="margin:10
 $('lgctl').oninput=e=>{const k=e.target.dataset.k;if(!k)return;LG[k]=+e.target.value;e.target.nextElementSibling.textContent=lgv(k,LG[k]);poster()};
 $('lgReset').onclick=()=>{Object.assign(LG,{ls:1,lx:0,ly:0,ts:1,tx:0,ty:0});lgUI();poster()};
 const lim=a=>TOPN>0?a.slice(0,TOPN):a;
-let st;const snap=()=>JSON.stringify({v:Object.fromEntries(['org','t1','t2','t3','ig','yt','dc'].map(id=>[id,$(id).value])),teams,nm,cur,theme,pat,rowst,lay,f1,f2,f3,t3Inline,fo,z,LG,ac2,PP,KM,TOPN,bgDark,showLogo,showTag,teamNameScale,showQ,QN,QNAME,SL,SC,logoCol,TP:{...TP,teams:TP.teams.map(t=>({name:t.name}))}});
+let st;const snap=()=>JSON.stringify({v:Object.fromEntries(['org','t1','t2','t3','ig','yt','dc'].map(id=>[id,$(id).value])),teams,nm,cur,theme,pat,rowst,lay,f1,f2,f3,t3Inline,fo,z,LG,ac2,PP,KM,TOPN,bgDark,showLogo,showTag,teamNameScale,showQ,QN,QNAME,SL,SC,logoCol,TP:{...TP,teams:TP.teams.map(t=>({name:t.name}))},TQ:{...TQ,items:TQ.items.map(q=>({name:q.name,val:q.val}))}});
 const save=()=>{clearTimeout(st);st=setTimeout(()=>{try{localStorage.setItem('bpt',snap())}catch(_){}},400)};
 const PK='bpt_projects',prjGet=()=>{try{return JSON.parse(localStorage.getItem(PK)||'[]')}catch(_){return[]}};
 const prjSet=a=>{try{localStorage.setItem(PK,JSON.stringify(a));return true}catch(_){alert('Browser storage is full. Delete an old project and try again.');return false}};
@@ -1015,7 +1064,8 @@ let SV=null;try{SV=JSON.parse(localStorage.getItem('bpt')||'null')}catch(_){}
 if(SV){try{if(SV.logoCol)logoCol=SV.logoCol;if(SV.teamNameScale)teamNameScale=SV.teamNameScale;else if(SV.tableScale)teamNameScale=SV.tableScale;['org','t1','t2','t3','ig','yt','dc'].forEach(id=>{if(SV.v&&SV.v[id]!=null)$(id).value=SV.v[id]});if(SV.v&&SV.v.t3==null)$('t3').value='';f3=SV.f3||f3;t3Inline=!!SV.t3Inline;
  if(SV.teams&&SV.teams.length){teams=SV.teams;nm=SV.nm||1;cur=SV.cur==null?0:SV.cur}
  theme=SV.theme||theme;pat=SV.pat||pat;rowst=SV.rowst||rowst;lay=(SV.lay==='neon'||SV.lay==='cyber'||SV.lay==='dual'||SV.lay==='strike')?'classic':(SV.lay==='carbon'?'pro':SV.lay==='synth'?'aurora':(SV.lay||lay));f1=SV.f1||f1;f2=SV.f2||f2;fo=SV.fo==='OrgCustom'?'':(SV.fo||'');
- z=SV.z||z;while(z.length<4)z.push(1);Object.assign(LG,SV.LG||{});ac2=null;if(SV.PP&&SV.PP.length){PP.length=0;PP.push(...SV.PP)}KM=SV.KM==null?1:SV.KM;TOPN=SV.TOPN||0;bgDark=SV.bgDark==null?.4:SV.bgDark;showLogo=SV.showLogo!==false;showTag=SV.showTag!==false;showQ=!!SV.showQ;if(SV.QN!=null)QN=SV.QN;if(SV.QNAME!=null)QNAME=SV.QNAME;if(SV.SL&&Array.isArray(SV.SL.teams)){SL=Object.assign(SL,SV.SL);SL.cols=SL.cols===2?2:1}if(SV.SC&&Array.isArray(SV.SC.rows)){if(SV.TP){const tt=SV.TP.teams;Object.assign(TP,SV.TP);TP.teams=(tt&&tt.length?tt:Array.from({length:16},(_,i)=>({name:'Team '+(i+1)}))).map(t=>({name:t.name||'',logo:''}))}
+ z=SV.z||z;while(z.length<4)z.push(1);Object.assign(LG,SV.LG||{});ac2=null;if(SV.PP&&SV.PP.length){PP.length=0;PP.push(...SV.PP)}KM=SV.KM==null?1:SV.KM;TOPN=SV.TOPN||0;bgDark=SV.bgDark==null?.4:SV.bgDark;showLogo=SV.showLogo!==false;showTag=SV.showTag!==false;showQ=!!SV.showQ;if(SV.QN!=null)QN=SV.QN;if(SV.QNAME!=null)QNAME=SV.QNAME;if(SV.SL&&Array.isArray(SV.SL.teams)){SL=Object.assign(SL,SV.SL);SL.cols=SL.cols===2?2:1}if(SV.SC&&Array.isArray(SV.SC.rows)){if(SV.TQ&&SV.TQ.items&&SV.TQ.items.length){Object.assign(TQ,SV.TQ);TQ.items=SV.TQ.items.map(q=>({name:q.name||'',val:q.val||'',img:''}))}
+if(SV.TP){const tt=SV.TP.teams;Object.assign(TP,SV.TP);TP.teams=(tt&&tt.length?tt:Array.from({length:16},(_,i)=>({name:'Team '+(i+1)}))).map(t=>({name:t.name||'',logo:''}))}
 SC=Object.assign(SC,SV.SC);while(SC.heads.length<5)SC.heads.push('DATE');if(!Array.isArray(SC.heads)||SC.heads.length!==4)SC.heads=['GROUP','IDP TIME','START TIME','MAP']}}catch(_){}}
 [0,1,2,3].forEach(i=>$('sz'+i).value=Math.round((z[i]||1)*100));$('t3i').checked=t3Inline;$('pat').value=pat;$('rowst').value=rowst;if(lay==='neon')lay='classic';$('lay').value=lay;$('tableFont').value=Math.round(teamNameScale*100);$('tableFontVal').value=Math.round(teamNameScale*100);swatches();
 z.forEach((v,i)=>{$('sz'+i).value=Math.round(v*100)});
@@ -1083,7 +1133,7 @@ $('gen').onclick=async()=>{
  try{
   await document.fonts.ready;const c=await html2canvas($('poster'),{scale:2,backgroundColor:'#120606',useCORS:true,
    onclone:d=>{const p=d.getElementById('poster');p.style.transform='none';p.style.overflow='hidden';p.querySelectorAll('.deco').forEach(el=>{el.style.position='absolute';el.style.top='0';el.style.right='0';el.style.bottom='0';el.style.left='0';el.style.width='100%';el.style.height='100%';el.style.overflow='hidden';el.style.pointerEvents='none';el.style.zIndex=(['torn','gamer','royal','pro','aurora','grand'].includes(p.dataset.lay))?'0':'1'});p.querySelectorAll('.deco svg').forEach(svg=>{svg.style.display='block';svg.style.visibility='visible';svg.style.pointerEvents='none';if(p.dataset.lay==='torn'){/* Preserve the original 90px top/bottom anchoring of the torn-paper edges. */svg.style.zIndex='0';}else{const inline=svg.getAttribute('style')||'';svg.style.position='absolute';svg.style.left='0';svg.style.width='100%';svg.style.maxWidth='100%';svg.style.zIndex='1';svg.style.overflow='visible';if(inline.includes('bottom:')){svg.style.bottom='0';svg.style.top='auto';if(!svg.style.height)svg.style.height='90px'}else if(inline.includes('top:')){svg.style.top='0';svg.style.bottom='auto';if(!svg.style.height)svg.style.height='90px'}else if(!svg.style.height){svg.style.height='100%'}}});}});
-  const url=c.toDataURL('image/png');$('out').src=url;$('dl').href=url;$('dl').download='BGMI_'+(page==='teams'?'Teams_Playing':page==='slots'?'Slot_List':page==='sched'?'Schedule':cur==='all'?'Overall':'Match_'+(cur+1))+'.png';openModal();
+  const url=c.toDataURL('image/png');$('out').src=url;$('dl').href=url;$('dl').download='BGMI_'+(page==='top'?'Top_Players':page==='teams'?'Teams_Playing':page==='slots'?'Slot_List':page==='sched'?'Schedule':cur==='all'?'Overall':'Match_'+(cur+1))+'.png';openModal();
  }catch(err){alert('Could not generate the image. Take a screenshot of the preview instead.')}
  lab();
 };
@@ -1173,6 +1223,37 @@ $('tpBulkBtn').onclick=()=>$('tpBulk').click();
 $('tpBulk').onchange=async e=>{const fs=[...e.target.files].sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));e.target.value='';for(let i=0;i<fs.length;i++){if(!TP.teams[i])TP.teams.push({name:'',logo:''});TP.teams[i].logo=await readLogo(fs[i]);TP.teams[i].name=fs[i].name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').trim()}teamsEditor()};
 $('tpImp').onclick=()=>{TP.teams=teams.map((t,i)=>({name:t.name||'',logo:(TP.teams[i]||{}).logo||''}));teamsEditor()};
 $('tpClr').onclick=()=>{TP.teams.forEach(t=>t.logo='');teamsEditor()};
+function topHTML(){
+ const L=lay,org=esc($('org').value),t1=esc($('t1').value),t2=t2h(),tag=esc((TQ.tag||'').trim());
+ const note=(TQ.note||'').trim()?`<div class="snote">${esc(TQ.note.trim()).replace(/\n/g,'<br>')}</div>`:'';
+ const T12=`<div class="t1">${t1}</div><div class="t2">${t2}</div>`;
+ const cards=TQ.items.map((q,i)=>`<div class="tc${TQ.alt&&i%2?' rev':''}"><div class="tcp"><div class="tci"${q.img?` style="background:url('${q.img}') center/contain no-repeat"`:''}>${q.img?'':esc((q.name||'?').trim().slice(0,2).toUpperCase())}</div></div><div class="tcb">${TQ.rank?`<span class="tcr">#${i+1}</span>`:''}<div class="tcn"><b>${esc(q.name)}</b><i></i><small>${esc(((TQ.stat||'').trim()+' '+(q.val||'')).trim())}</small></div></div></div>`).join('');
+ let pre,tg=tag?`<div class="mlab">${tag}</div>`:'',post=note+foot();
+ if(L==='gamer'){pre=`<div class="deco">${gameDeco()}</div><div class="org"><em>//</em>${org}</div>${T12}`;tg=tag?`<div class="gt"><b></b><span>${tag}</span><i>&raquo;&raquo;&raquo;</i></div>`:''}
+ else if(L==='frost'){pre=`<div class="deco">${frostDeco()}${snow(34)}</div><div class="fh"><span>${org}</span></div><div class="t1">${t1}</div><div class="bn"><b></b><span>${t2}</span></div>`;post=note+`<div class="fbox"><b></b>${foot()}</div>`}
+ else if(NEWL.includes(L))pre=`<div class="deco">${newDeco(L)}</div>${tlh(L)}<div class="org">${org}</div>${T12}`;
+ else if(L==='torn')pre=`<div class="deco">${torn(1)}${torn(0)}</div><div class="org">${org}</div>${T12}`;
+ else if(L==='mono')pre=`<div class="org">${org}</div>${T12}`;
+ else pre=`${CDECO}<div class="org">${org}</div>${T12}`;
+ return pre+tg+`<div class="tcs">${cards}</div>`+post;
+}
+let tqIdx=0;
+function topEditor(){
+ $('tqTag').value=TQ.tag;$('tqStat').value=TQ.stat;$('tqNote').value=TQ.note||'';$('tqAlt').checked=!!TQ.alt;$('tqRank').checked=!!TQ.rank;$('tqCount').textContent=TQ.items.length;
+ $('tqRows').innerHTML=TQ.items.map((q,i)=>`<div class="tqrow"><button class="lgb" type="button" data-qup="${i}" title="Upload photo" aria-label="Upload photo for player ${i+1}"${q.img?` style="background-image:url('${q.img}')"`:''}>${q.img?'':'+'}</button><input data-qi="${i}" data-qf="name" value="${esc(q.name)}" aria-label="Player name"><input data-qi="${i}" data-qf="val" value="${esc(q.val)}" aria-label="Value"><button class="x" data-qdel="${i}" aria-label="Remove player">&times;</button></div>`).join('');
+ lab();poster();
+}
+$('tqTag').oninput=e=>{TQ.tag=e.target.value;poster()};
+$('tqStat').oninput=e=>{TQ.stat=e.target.value;poster()};
+$('tqNote').oninput=e=>{TQ.note=e.target.value;poster()};
+$('tqAlt').onchange=e=>{TQ.alt=e.target.checked;poster()};
+$('tqRank').onchange=e=>{TQ.rank=e.target.checked;poster()};
+$('tqRows').oninput=e=>{const d=e.target.dataset,q=TQ.items[d.qi];if(!q||!d.qf)return;q[d.qf]=e.target.value;poster()};
+$('tqRows').onclick=e=>{const u=e.target.closest('[data-qup]');if(u){tqIdx=+u.dataset.qup;$('tqOne').click();return}const d=e.target.closest('[data-qdel]');if(d){TQ.items.splice(+d.dataset.qdel,1);topEditor()}};
+$('tqOne').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f||!TQ.items[tqIdx])return;TQ.items[tqIdx].img=await readLogo(f);topEditor()};
+$('tqAdd').onclick=()=>{if(TQ.items.length>=8)return;TQ.items.push({name:'Player '+(TQ.items.length+1),val:'',img:''});topEditor()};
+$('tqImp').onclick=()=>{const n=Math.max(1,TQ.items.length),a=teams.map(t=>({name:t.name||'',val:String(t.m.reduce((x,m)=>x+(+m.k||0),0)),img:''})).sort((x,y)=>y.val-x.val).slice(0,n);if(a.length){TQ.items=a;topEditor()}};
+$('tqClr').onclick=()=>{TQ.items.forEach(q=>q.img='');topEditor()};
 function segSync(){$('slCols').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.v===SL.cols))}
 function slotEditor(){
  $('slStart').value=SL.start;segSync();$('slTitle').value=SL.title;$('slNote').value=SL.note||'';$('slCount').textContent=SL.teams.length;
@@ -1196,14 +1277,14 @@ $('slApp').onclick=()=>{const a=pasted();if(!a.length)return;a.forEach(name=>SL.
 /* ---------- Page switching ---------- */
 function setPage(p){
  page=p;document.body.dataset.page=p;
- [['navPts','pts'],['navSlots','slots'],['navSched','sched'],['navTeams','teams']].forEach(x=>$(x[0]).classList.toggle('on',p===x[1]));
- const T={pts:['Points table','Points table details','BGMI Points Table Generator'],slots:['Slot list','Slot list details','BGMI Slot List Generator'],sched:['Schedule','Schedule details','BGMI Schedule Generator'],teams:['Teams playing','Poster details','BGMI Teams Poster Generator']}[p];
+ [['navPts','pts'],['navSlots','slots'],['navSched','sched'],['navTeams','teams'],['navTop','top']].forEach(x=>$(x[0]).classList.toggle('on',p===x[1]));
+ const T={pts:['Points table','Points table details','BGMI Points Table Generator'],slots:['Slot list','Slot list details','BGMI Slot List Generator'],sched:['Schedule','Schedule details','BGMI Schedule Generator'],teams:['Teams playing','Poster details','BGMI Teams Poster Generator'],top:['Top players','Poster details','BGMI Top Players Generator']}[p];
  $('ptitle').textContent=T[0];$('gtitle').textContent=T[1];document.title=T[2];
  try{history.replaceState(null,'',p==='pts'?'#':'#'+p)}catch(_){}
- if(p==='slots')slotEditor();else if(p==='sched')schedEditor();else if(p==='teams')teamsEditor();else editor();
+ if(p==='slots')slotEditor();else if(p==='sched')schedEditor();else if(p==='teams')teamsEditor();else if(p==='top')topEditor();else editor();
 }
 document.querySelector('.nav').onclick=e=>{const p=e.target.dataset.p;if(p&&p!==page)setPage(p)};
-addEventListener('hashchange',()=>{const p={'#slots':'slots','#sched':'sched','#teams':'teams'}[location.hash]||'pts';if(p!==page)setPage(p)});
+addEventListener('hashchange',()=>{const p={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top'}[location.hash]||'pts';if(p!==page)setPage(p)});
 /* ---------- Schedule ---------- */
 function schedHTML(){
  const L=lay,R=SC.rows,e=x=>esc(x==null?'':x),key=g=>String(g==null?'':g).trim().toLowerCase();
