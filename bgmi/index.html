@@ -20,7 +20,7 @@
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Patrick+Hand&display=swap"
       rel="stylesheet"
     />
     <link
@@ -98,6 +98,31 @@
         border-radius: 6px;
         padding: 8px 10px;
         font: inherit;
+      }
+      /* Certificate QR checkbox: override the global full-width input and label styles. */
+      label.ce-qr-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        width: max-content;
+        max-width: 100%;
+        margin: 10px 0 4px;
+        line-height: 1.4;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      label.ce-qr-toggle input[type="checkbox"] {
+        appearance: auto;
+        -webkit-appearance: checkbox;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        flex: 0 0 16px;
+        margin: 0;
+        padding: 0;
+        accent-color: var(--ac);
+        vertical-align: middle;
       }
       input:focus,
       button:focus-visible {
@@ -3809,14 +3834,14 @@
         max-width: 820px;
         margin: 25px 0 0;
         font:
-          400 22px/1.55 Inter,
+          400 22px/1.55 "Nunito Sans",
           Arial,
           sans-serif;
         color: #e0ddd5;
         white-space: normal;
       }
       #poster[data-page="cert"] .cert-message .handwritten-param {
-        font-family: "Kalam", cursive;
+        font-family: "Patrick Hand", cursive;
         font-weight: 700;
       }
       #poster[data-page="cert"] .cert-achievements {
@@ -4441,9 +4466,10 @@
             /><button id="ceUUIDGen" type="button">Generate UUID</button>
           </div>
           <p class="hint">The UUID appears at the right end of the date row.</p>
-          <label
-            ><input id="ceQrOn" type="checkbox" checked /> Show QR code</label
-          >
+          <label class="ce-qr-toggle" for="ceQrOn">
+            <input id="ceQrOn" type="checkbox" checked />
+            <span>Show QR code</span>
+          </label>
           <label for="ceQrText">QR code content</label
           ><textarea
             id="ceQrText"
