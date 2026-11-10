@@ -775,7 +775,8 @@ body[data-page=cert] .pts-only,body[data-page=cert] .slot-only,body[data-page=ce
    <div class="two"><input id="ceL1" aria-label="Left box label"><input id="ceV1" aria-label="Left box value"></div>
    <label>Right box (label and value)</label>
    <div class="two"><input id="ceL2" aria-label="Right box label"><input id="ceV2" aria-label="Right box value"></div>
-   <label for="ceTitle">Title above the logo (pick one or type your own)</label><input id="ceTitle" list="ceTitles" placeholder="Leave empty to hide"><datalist id="ceTitles"><option value="CHAMPIONS"><option value="1st Runner Up"><option value="2nd Runner Up"></datalist>
+   <label for="ceTitle">Title above the logo (text, font, size %)</label><div class="fr"><input id="ceTitle" list="ceTitles" placeholder="Leave empty to hide"><select id="ceTf" aria-label="Title font"></select><input id="ceTz" type="number" min="10" max="400" step="5" list="szl" title="Font size (%)" aria-label="Title font size percent"></div><datalist id="ceTitles"><option value="CHAMPIONS"><option value="1st Runner Up"><option value="2nd Runner Up"></datalist>
+   <label for="ceTc">Title colour</label><div class="two"><input id="ceTc" type="color" aria-label="Title colour" style="height:38px;padding:3px"><button id="ceTcRm" type="button">Use design colour</button></div>
    <label for="ceName">Team name</label><input id="ceName">
    <label for="ceRank">Position (used in the message, for example 1st)</label><input id="ceRank">
    <label for="ceLogo">Team logo</label><input id="ceLogo" type="file" accept="image/*">
@@ -995,7 +996,7 @@ let page={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top','#cert
 let SC={merge:true,title:'SCHEDULE',heads:['GROUP','IDP TIME','START TIME','MAP','DATE'],showDate:true,note:'QUALIFICATIONS BASED ON KILL+POINTS ONLY',rows:[['Group 1','6.50','7.00','Erangel'],['Group 1','7.40','7.50','Miramar'],['Group 2','7.50','8.00','Erangel'],['Group 2','8.40','8.50','Miramar'],['Group 3','8.50','9.00','Erangel'],['Group 3','9.40','9.50','Miramar']].map((a,i)=>({d:i<4?'08 Nov':'09 Nov',g:a[0],idp:a[1],start:a[2],map:a[3]}))};
 let TQ={tag:'TOP 03 PLAYERS',stat:'FINISHES',alt:true,rank:true,note:'',items:[{name:'Player 1',val:'12',img:''},{name:'Player 2',val:'10',img:''},{name:'Player 3',val:'8',img:''}]};
 let TP={tag:'GRAND FINALS',title:'TEAMS PLAYING',cols:4,size:88,names:false,side:false,note:'',teams:Array.from({length:16},(_,i)=>({name:'Team '+(i+1),logo:''}))};
-let CE={title:'CHAMPIONS',l1:'TOTAL POINTS',v1:'121',l2:'TOTAL FINISHES',v2:'101',name:'Team 1',rank:'1st',msg:'Congratulations to {team} for their spectacular performance and securing the coveted {rank} in the {tournament} with an impressive total of {kills} kills and {points} total points, they’ve not only showcased their unparalleled skill and strategy but also demonstrated their unwavering dedication to excellence',dl:'Date :',date:(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'-'+p(d.getMonth()+1)+'-'+d.getFullYear()})(),logo:''};
+let CE={title:'CHAMPIONS',tf:'',tz:100,tc:'',l1:'TOTAL POINTS',v1:'121',l2:'TOTAL FINISHES',v2:'101',name:'Team 1',rank:'1st',msg:'Congratulations to {team} for their spectacular performance and securing the coveted {rank} in the {tournament} with an impressive total of {kills} kills and {points} total points, they’ve not only showcased their unparalleled skill and strategy but also demonstrated their unwavering dedication to excellence',dl:'Date :',date:(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'-'+p(d.getMonth()+1)+'-'+d.getFullYear()})(),logo:''};
 let SL={start:1,cols:1,title:'SLOT LIST',note:'',teams:Array.from({length:16},(_,i)=>({n:String(i+1),name:'Team '+(i+1)}))};
 function swatches(){$('themes').innerHTML=Object.keys(TH).map(k=>`<button data-t="${k}" title="${k}" aria-label="${k} theme" class="${k===theme?'on':''}" style="background:linear-gradient(135deg,${TH[k][0]},${TH[k][1]})"></button>`).join('')}
 $('themes').onclick=e=>{const t=e.target.dataset.t;if(!t)return;theme=t;ac2=null;swatches();poster()};
@@ -1345,7 +1346,9 @@ function certHTML(){
  const box=(l,v)=>`<div class="cs">${String(l||'').trim()?`<div class="csl">${esc(l)}</div>`:''}<div class="csv" style="${bg}"><span style="font-size:${vs(v||'')}px">${esc(v||'')}</span></div></div>`;
  const ini=esc((CE.name||'?').trim().split(/\s+/).map(w=>w[0]||'').join('').slice(0,3).toUpperCase());
  const logo=`<div class="clg"><div class="tlg"><div class="tlgi"${CE.logo?` style="background:url('${CE.logo}') center/contain no-repeat"`:''}>${CE.logo?'':ini}</div></div></div>`;
- const ti=(CE.title||'').trim()?`<div class="cti">${esc(CE.title)}</div>`:'';
+ const tz=Math.max(.1,(parseFloat(CE.tz)||100)/100),tk=(FONTS.find(f=>f[0]===CE.tf)||[0,1])[1];
+ const tst=(CE.tf?`font-family:'${esc(CE.tf)}',sans-serif;font-size:${Math.round(70*tk*tz*10)/10}px;`:`font-size:calc(70px*var(--k1)*${tz});`)+(CE.tc?`color:${esc(CE.tc)};`:'');
+ const ti=(CE.title||'').trim()?`<div class="cti" style="${tst}">${esc(CE.title)}</div>`:'';
  const nmh=(CE.name||'').trim()?`<div class="cnm" style="font-size:${Math.round(38*teamNameScale)}px">${esc(CE.name)}</div>`:'';
  const msg=certTok().trim()?`<div class="snote cmsg">${esc(certTok().trim()).replace(/\n/g,'<br>')}</div>`:'';
  const dt=(CE.date||'').trim()?`<div class="cdt">${esc(((CE.dl||'').trim()+' '+CE.date.trim()).trim())}</div>`:'';
@@ -1365,12 +1368,18 @@ function certRows(){
 }
 function certEditor(){
  Object.keys(CEF).forEach(id=>$(id).value=CE[CEF[id]]==null?'':CE[CEF[id]]);
+ $('ceTf').innerHTML='<option value="">Default (heading font)</option>'+FONTS.map(f=>`<option>${f[0]}</option>`).join('');$('ceTf').value=CE.tf||'';$('ceTz').value=CE.tz||100;
  $('ceTeam').innerHTML='<option value="">Choose a team to fill the fields…</option>'+certRows().map((r,i)=>`<option value="${i}">${r.rank}. ${esc(r.name)} (${r.pts} pts, ${r.kills} kills)</option>`).join('');
- lab();poster();
+ lab();poster();ceTcSync();
 }
+function ceTcSync(){if(CE.tc){$('ceTc').value=CE.tc;return}const e=document.querySelector('#poster .cti');if(!e)return;const m=getComputedStyle(e).color.match(/\d+(\.\d+)?/g);if(m&&m.length>=3)$('ceTc').value='#'+m.slice(0,3).map(x=>Math.round(+x).toString(16).padStart(2,'0')).join('')}
 Object.keys(CEF).forEach(id=>$(id).oninput=e=>{CE[CEF[id]]=e.target.value;poster()});
 $('ceTeam').onchange=e=>{const r=certRows()[e.target.value];if(!r)return;CE.name=r.name;CE.rank=ordinal(r.rank);CE.title=['CHAMPIONS','1st Runner Up','2nd Runner Up'][r.rank-1]||'';CE.v1=String(r.pts);CE.v2=String(r.kills);Object.keys(CEF).forEach(id=>$(id).value=CE[CEF[id]]);poster()};
 $('ceLogo').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;CE.logo=await readLogo(f);poster()};
+$('ceTf').onchange=e=>{CE.tf=e.target.value;poster();later()};
+$('ceTz').oninput=e=>{const v=parseFloat(e.target.value);if(!(v>=10))return;CE.tz=v;poster();later()};
+$('ceTc').oninput=e=>{CE.tc=e.target.value;poster()};
+$('ceTcRm').onclick=()=>{CE.tc='';poster();ceTcSync()};
 $('ceLogoRm').onclick=()=>{CE.logo='';poster()};
 
 /* ---------- Page switching ---------- */
