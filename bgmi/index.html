@@ -672,6 +672,12 @@ body[data-page=cert] .pts-only,body[data-page=cert] .slot-only,body[data-page=ce
 #poster[data-lay=grand] .csv{color:#2a1a00}
 #poster[data-lay=aurora] .csl,#poster[data-lay=aurora] .cdt,#poster[data-lay=aurora] .cnm,#poster[data-lay=aurora] .csv{color:#fff}
 #poster[data-lay=gamer] .cnm{text-shadow:0 0 18px var(--g)}
+#poster .cti{text-align:center;font-family:var(--f1);font-size:calc(70px*var(--k1));line-height:1;letter-spacing:.06em;text-transform:uppercase;color:var(--a);margin-bottom:26px;overflow-wrap:anywhere}
+#poster[data-lay=mono] .cti{color:#111}
+#poster[data-lay=frost] .cti,#poster[data-lay=aurora] .cti{color:#fff}
+#poster[data-lay=frost] .cti{text-shadow:0 3px 16px rgba(8,36,110,.55)}
+#poster[data-lay=royal] .cti,#poster[data-lay=grand] .cti{color:#f1d68b}
+#poster[data-lay=gamer] .cti{text-shadow:0 0 22px var(--g)}
 </style>
 </head>
 <body>
@@ -769,6 +775,7 @@ body[data-page=cert] .pts-only,body[data-page=cert] .slot-only,body[data-page=ce
    <div class="two"><input id="ceL1" aria-label="Left box label"><input id="ceV1" aria-label="Left box value"></div>
    <label>Right box (label and value)</label>
    <div class="two"><input id="ceL2" aria-label="Right box label"><input id="ceV2" aria-label="Right box value"></div>
+   <label for="ceTitle">Title above the logo (pick one or type your own)</label><input id="ceTitle" list="ceTitles" placeholder="Leave empty to hide"><datalist id="ceTitles"><option value="CHAMPIONS"><option value="1st Runner Up"><option value="2nd Runner Up"></datalist>
    <label for="ceName">Team name</label><input id="ceName">
    <label for="ceRank">Position (used in the message, for example 1st)</label><input id="ceRank">
    <label for="ceLogo">Team logo</label><input id="ceLogo" type="file" accept="image/*">
@@ -988,7 +995,7 @@ let page={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top','#cert
 let SC={merge:true,title:'SCHEDULE',heads:['GROUP','IDP TIME','START TIME','MAP','DATE'],showDate:true,note:'QUALIFICATIONS BASED ON KILL+POINTS ONLY',rows:[['Group 1','6.50','7.00','Erangel'],['Group 1','7.40','7.50','Miramar'],['Group 2','7.50','8.00','Erangel'],['Group 2','8.40','8.50','Miramar'],['Group 3','8.50','9.00','Erangel'],['Group 3','9.40','9.50','Miramar']].map((a,i)=>({d:i<4?'08 Nov':'09 Nov',g:a[0],idp:a[1],start:a[2],map:a[3]}))};
 let TQ={tag:'TOP 03 PLAYERS',stat:'FINISHES',alt:true,rank:true,note:'',items:[{name:'Player 1',val:'12',img:''},{name:'Player 2',val:'10',img:''},{name:'Player 3',val:'8',img:''}]};
 let TP={tag:'GRAND FINALS',title:'TEAMS PLAYING',cols:4,size:88,names:false,side:false,note:'',teams:Array.from({length:16},(_,i)=>({name:'Team '+(i+1),logo:''}))};
-let CE={l1:'TOTAL POINTS',v1:'121',l2:'TOTAL FINISHES',v2:'101',name:'Team 1',rank:'1st',msg:'Congratulations to {team} for their spectacular performance and securing the coveted {rank} in the {tournament} with an impressive total of {kills} kills and {points} total points, they’ve not only showcased their unparalleled skill and strategy but also demonstrated their unwavering dedication to excellence',dl:'Date :',date:(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'-'+p(d.getMonth()+1)+'-'+d.getFullYear()})(),logo:''};
+let CE={title:'CHAMPIONS',l1:'TOTAL POINTS',v1:'121',l2:'TOTAL FINISHES',v2:'101',name:'Team 1',rank:'1st',msg:'Congratulations to {team} for their spectacular performance and securing the coveted {rank} in the {tournament} with an impressive total of {kills} kills and {points} total points, they’ve not only showcased their unparalleled skill and strategy but also demonstrated their unwavering dedication to excellence',dl:'Date :',date:(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'-'+p(d.getMonth()+1)+'-'+d.getFullYear()})(),logo:''};
 let SL={start:1,cols:1,title:'SLOT LIST',note:'',teams:Array.from({length:16},(_,i)=>({n:String(i+1),name:'Team '+(i+1)}))};
 function swatches(){$('themes').innerHTML=Object.keys(TH).map(k=>`<button data-t="${k}" title="${k}" aria-label="${k} theme" class="${k===theme?'on':''}" style="background:linear-gradient(135deg,${TH[k][0]},${TH[k][1]})"></button>`).join('')}
 $('themes').onclick=e=>{const t=e.target.dataset.t;if(!t)return;theme=t;ac2=null;swatches();poster()};
@@ -1338,6 +1345,7 @@ function certHTML(){
  const box=(l,v)=>`<div class="cs">${String(l||'').trim()?`<div class="csl">${esc(l)}</div>`:''}<div class="csv" style="${bg}"><span style="font-size:${vs(v||'')}px">${esc(v||'')}</span></div></div>`;
  const ini=esc((CE.name||'?').trim().split(/\s+/).map(w=>w[0]||'').join('').slice(0,3).toUpperCase());
  const logo=`<div class="clg"><div class="tlg"><div class="tlgi"${CE.logo?` style="background:url('${CE.logo}') center/contain no-repeat"`:''}>${CE.logo?'':ini}</div></div></div>`;
+ const ti=(CE.title||'').trim()?`<div class="cti">${esc(CE.title)}</div>`:'';
  const nmh=(CE.name||'').trim()?`<div class="cnm" style="font-size:${Math.round(38*teamNameScale)}px">${esc(CE.name)}</div>`:'';
  const msg=certTok().trim()?`<div class="snote cmsg">${esc(certTok().trim()).replace(/\n/g,'<br>')}</div>`:'';
  const dt=(CE.date||'').trim()?`<div class="cdt">${esc(((CE.dl||'').trim()+' '+CE.date.trim()).trim())}</div>`:'';
@@ -1348,9 +1356,9 @@ function certHTML(){
  else if(L==='torn')pre=`<div class="deco">${torn(1)}${torn(0)}</div><div class="org">${org}</div>${T12}`;
  else if(L==='mono')pre=`<div class="org">${org}</div>${T12}`;
  else pre=`${CDECO}<div class="org">${org}</div>${T12}`;
- return pre+`<div class="cw"><div class="cb">${box(CE.l1,CE.v1)}${logo}${box(CE.l2,CE.v2)}</div>${nmh}${msg}${dt}</div>`+post;
+ return pre+`<div class="cw">${ti}<div class="cb">${box(CE.l1,CE.v1)}${logo}${box(CE.l2,CE.v2)}</div>${nmh}${msg}${dt}</div>`+post;
 }
-const CEF={ceL1:'l1',ceV1:'v1',ceL2:'l2',ceV2:'v2',ceName:'name',ceRank:'rank',ceMsg:'msg',ceDL:'dl',ceDate:'date'};
+const CEF={ceTitle:'title',ceL1:'l1',ceV1:'v1',ceL2:'l2',ceV2:'v2',ceName:'name',ceRank:'rank',ceMsg:'msg',ceDL:'dl',ceDate:'date'};
 function certRows(){
  const c=cur;cur='all';let s;try{s=stats()}finally{cur=c}
  return s.map((x,i)=>{const t=teams.find(q=>(q.name||'Team')===x.name);let k=0;if(t)for(let j=0;j<nm;j++){k+=parseInt((t.m[j]||{}).k)||0}return{name:x.name,rank:i+1,pts:x.tot,kills:k}});
@@ -1361,7 +1369,7 @@ function certEditor(){
  lab();poster();
 }
 Object.keys(CEF).forEach(id=>$(id).oninput=e=>{CE[CEF[id]]=e.target.value;poster()});
-$('ceTeam').onchange=e=>{const r=certRows()[e.target.value];if(!r)return;CE.name=r.name;CE.rank=ordinal(r.rank);CE.v1=String(r.pts);CE.v2=String(r.kills);Object.keys(CEF).forEach(id=>$(id).value=CE[CEF[id]]);poster()};
+$('ceTeam').onchange=e=>{const r=certRows()[e.target.value];if(!r)return;CE.name=r.name;CE.rank=ordinal(r.rank);CE.title=['CHAMPIONS','1st Runner Up','2nd Runner Up'][r.rank-1]||'';CE.v1=String(r.pts);CE.v2=String(r.kills);Object.keys(CEF).forEach(id=>$(id).value=CE[CEF[id]]);poster()};
 $('ceLogo').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;CE.logo=await readLogo(f);poster()};
 $('ceLogoRm').onclick=()=>{CE.logo='';poster()};
 
