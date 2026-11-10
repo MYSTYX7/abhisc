@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     const data = await upstream.json();
 
     if (data.error) return res.status(502).json({ found: false, error: 'Lookup failed' });
-    return res.status(200).json(data); // { found, data: { id, team, date, tournament } }
+    return res.status(200).json(data); // { found, data: { id, team, date, tournament, authority } }
   } catch (e) {
     return res.status(502).json({ found: false, error: 'Lookup failed' });
   }

@@ -60,7 +60,7 @@ button:disabled{opacity:.6;cursor:wait}
 .tear{position:relative;border-top:2px dashed #cfc7b3}
 .tear::before,.tear::after{content:"";position:absolute;top:-15px;width:28px;height:28px;border-radius:50%;background:var(--char)}
 .tear::before{left:-14px}.tear::after{right:-14px}
-.bottom{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px;padding:clamp(24px,4vw,36px) clamp(26px,5vw,44px) clamp(28px,5vw,40px)}
+.bottom{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:24px;padding:clamp(24px,4vw,36px) clamp(26px,5vw,44px) clamp(28px,5vw,40px)}
 .val{font-weight:600;font-size:18px;line-height:1.3;overflow-wrap:anywhere}
 
 /* not found / error */
@@ -126,6 +126,7 @@ function show(d){
       <div><span class="label">Tournament</span><div class="val">${esc(d.tournament)}</div></div>
       <div><span class="label">Issue Date</span><div class="val">${esc(d.date)}</div></div>
       <div><span class="label">Certificate ID</span><div class="val">${esc(d.id)}</div></div>
+      <div><span class="label">Issuing Authority</span><div class="val">${esc(d.authority || '—')}</div></div>
     </div></article>`);
   stage.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'nearest'});
 }
