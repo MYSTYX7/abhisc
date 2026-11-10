@@ -579,7 +579,7 @@ body[data-page=teams] .pts-only,body[data-page=teams] .slot-only,body[data-page=
 #poster .tile{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
 #poster .tlg{position:relative;box-sizing:border-box;width:100%;height:0;padding-top:100%;border:3px solid #fff;background:#0b0b0b}
 #poster .tlgi{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font:400 64px var(--f1,'Bebas Neue'),sans-serif;color:var(--a)}
-#poster .tnm2{font:700 19px Montserrat,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#fff;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#poster .tnm2{font:700 19px Montserrat,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#fff;text-align:center;max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:break-word;line-height:1.2}
 #poster .bigt{font-family:var(--f1);font-size:calc(132px*var(--k1));line-height:.95;text-align:center;text-transform:uppercase;color:#fff;white-space:nowrap;overflow:hidden;margin:4px 0 30px}
 #poster[data-lay=mono] .tg{background:none;border-color:#111}
 #poster[data-lay=mono] .tlg{border-color:#111;background:#fff}
@@ -644,10 +644,38 @@ body[data-page=top] .pts-only,body[data-page=top] .slot-only,body[data-page=top]
 .tqrow{display:grid;grid-template-columns:44px minmax(0,1fr) 64px 30px;gap:6px;align-items:center;margin-top:6px}
 .tqrow .lgb{display:grid;place-items:center;width:44px;height:44px;border:1px dashed var(--line);border-radius:8px;cursor:pointer;color:var(--mut);background:var(--field) center/contain no-repeat;font-size:20px}
 #poster[data-lay=frost][data-page=top]{padding-bottom:210px}
+
+/* ===================== Certificate page ===================== */
+body[data-page=cert] .pts-only,body[data-page=cert] .slot-only,body[data-page=cert] .sched-only,body:not([data-page=cert]) .cert-only{display:none}
+#poster[data-page=cert][data-lay]{width:1000px}
+#poster[data-page=cert][data-lay] .org,#poster[data-page=cert][data-lay] .t1,#poster[data-page=cert][data-lay] .t2{text-align:center;justify-content:center}
+#poster[data-page=cert][data-lay] .t1,#poster[data-page=cert][data-lay] .t2{margin-left:auto;margin-right:auto;max-width:calc(100% - 160px)}
+#poster[data-lay=frost][data-page=cert]{padding-bottom:210px}
+#poster .cw{margin-top:34px}
+#poster[data-lay=torn] .cw{padding:0 40px}
+#poster .cb{display:grid;grid-template-columns:minmax(0,1fr) 330px minmax(0,1fr);gap:20px;align-items:center}
+#poster .cs{display:flex;flex-direction:column;align-items:center;gap:12px}
+#poster .csl{font:800 22px/1.1 Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--lab)}
+#poster .csv{width:190px;height:150px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+#poster .csv span{font-family:'Bebas Neue',sans-serif;line-height:1;color:inherit;white-space:nowrap}
+#poster .clg{width:330px}
+#poster .clg .tlgi{left:12px;top:12px;right:12px;bottom:12px;font-size:110px}
+#poster .cnm{margin-top:26px;text-align:center;font:800 38px/1.15 Montserrat,sans-serif;color:var(--a);overflow-wrap:anywhere}
+#poster .snote.cmsg{margin-top:22px;padding:24px 40px;text-align:center;font-weight:600;font-size:26px;line-height:1.45;text-transform:none;letter-spacing:0}
+#poster[data-lay=royal] .snote.cmsg{font-size:29px}
+#poster .cdt{margin-top:26px;font:700 26px Montserrat,sans-serif;letter-spacing:.04em;color:var(--lab)}
+#poster[data-lay=mono] .csl,#poster[data-lay=mono] .cdt,#poster[data-lay=mono] .cnm{color:#111}
+#poster[data-lay=mono] .csv{color:#fff}
+#poster[data-lay=frost] .csl,#poster[data-lay=frost] .cdt,#poster[data-lay=frost] .cnm{color:#fff;text-shadow:0 2px 12px rgba(8,36,110,.5)}
+#poster[data-lay=frost] .csv{color:#fff}
+#poster[data-lay=royal] .csl,#poster[data-lay=royal] .cdt,#poster[data-lay=royal] .cnm,#poster[data-lay=grand] .csl,#poster[data-lay=grand] .cdt,#poster[data-lay=grand] .cnm{color:#f1d68b}
+#poster[data-lay=grand] .csv{color:#2a1a00}
+#poster[data-lay=aurora] .csl,#poster[data-lay=aurora] .cdt,#poster[data-lay=aurora] .cnm,#poster[data-lay=aurora] .csv{color:#fff}
+#poster[data-lay=gamer] .cnm{text-shadow:0 0 18px var(--g)}
 </style>
 </head>
 <body>
-<div class="nav" role="tablist"><span class="brand"><i></i>BGMI Studio</span><button id="navPts" class="on" data-p="pts" role="tab">Points Table</button><button id="navSlots" data-p="slots" role="tab">Slot List</button><button id="navSched" data-p="sched" role="tab">Schedule</button><button id="navTeams" data-p="teams" role="tab">Teams Playing</button><button id="navTop" data-p="top" role="tab">Top Players</button></div>
+<div class="nav" role="tablist"><span class="brand"><i></i>BGMI Studio</span><button id="navPts" class="on" data-p="pts" role="tab">Points Table</button><button id="navSlots" data-p="slots" role="tab">Slot List</button><button id="navSched" data-p="sched" role="tab">Schedule</button><button id="navTeams" data-p="teams" role="tab">Teams Playing</button><button id="navTop" data-p="top" role="tab">Top Players</button><button id="navCert" data-p="cert" role="tab">Certificate</button></div>
 <div class="app">
  <div class="panel">
   <h2 id="ptitle">Points table</h2>
@@ -734,6 +762,23 @@ body[data-page=top] .pts-only,body[data-page=top] .slot-only,body[data-page=top]
    <p class="hint">Click a square to upload that team's logo. Bulk upload fills the teams in file-name order and uses the file names as team names. Logos are kept in the current session only.</p>
    <label for="tpNote">Bottom note (leave empty to hide it)</label><textarea id="tpNote" rows="2"></textarea>
   </details>
+  <details class="grp cert-only" open><summary class="gs">Certificate</summary>
+   <label for="ceTeam">Fill from Points Table (overall standings)</label>
+   <select id="ceTeam" aria-label="Fill from Points Table"></select>
+   <label>Left box (label and value)</label>
+   <div class="two"><input id="ceL1" aria-label="Left box label"><input id="ceV1" aria-label="Left box value"></div>
+   <label>Right box (label and value)</label>
+   <div class="two"><input id="ceL2" aria-label="Right box label"><input id="ceV2" aria-label="Right box value"></div>
+   <label for="ceName">Team name</label><input id="ceName">
+   <label for="ceRank">Position (used in the message, for example 1st)</label><input id="ceRank">
+   <label for="ceLogo">Team logo</label><input id="ceLogo" type="file" accept="image/*">
+   <div class="acts"><button id="ceLogoRm" type="button">Remove team logo</button></div>
+   <label for="ceMsg">Message</label><textarea id="ceMsg" rows="6"></textarea>
+   <p class="hint">You can use {team}, {rank}, {tournament}, {points} and {kills} in the message. {points} is the left box value and {kills} is the right box value. Leave the message empty to hide it.</p>
+   <label>Date (label and value)</label>
+   <div class="two"><input id="ceDL" aria-label="Date label"><input id="ceDate" aria-label="Date"></div>
+   <p class="hint">Leave the date empty to hide it. The team logo is kept in the current session only.</p>
+  </details>
   <details class="grp slot-only" open><summary class="gs">Slot list</summary>
    <div class="two"><div><label for="slStart">Starting slot number</label><input id="slStart" type="number" step="1" value="1"></div>
    <div><label>Columns</label><div class="seg" id="slCols" role="group" aria-label="Columns"><button type="button" data-v="1">1 column</button><button type="button" data-v="2">2 columns</button></div></div></div>
@@ -771,7 +816,7 @@ body[data-page=top] .pts-only,body[data-page=top] .slot-only,body[data-page=top]
  <div class="mbox">
   <div class="mhead"><b>Your image is ready</b><button id="close" class="mx" type="button" aria-label="Close">&times;</button></div>
   <div class="mimg"><img id="out" alt="Generated image"></div>
-  <div class="mbar"><span>Scroll to see the full image.</span><div class="mact"><button id="cp" type="button">Copy image</button><a id="dl" class="btn" download="BGMI.png">Download PNG</a></div></div>
+  <div class="mbar"><span>Scroll to see the full image. If the button does not download, press and hold (or right-click) the image and choose Save.</span><div class="mact"><button id="cp" type="button">Copy image</button><a id="dl" class="btn" download="BGMI.png">Download PNG</a></div></div>
  </div>
 </div>
 <script>
@@ -794,7 +839,7 @@ function stats(){
  }).filter(s=>cur==='all'||s.mp>0).sort((a,b)=>b.tot-a.tot||b.w-a.w||b.ps-a.ps||b.k-a.k);
 }
 const ini=n=>n.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()||'T';
-const lab=()=>{$('gen').textContent=page==='top'?'Generate top players poster':page==='teams'?'Generate teams poster':page==='slots'?'Generate slot list image':page==='sched'?'Generate schedule image':cur==='all'?'Generate overall image':'Generate Match '+(cur+1)+' image'};
+const lab=()=>{$('gen').textContent=page==='cert'?'Generate certificate':page==='top'?'Generate top players poster':page==='teams'?'Generate teams poster':page==='slots'?'Generate slot list image':page==='sched'?'Generate schedule image':cur==='all'?'Generate overall image':'Generate Match '+(cur+1)+' image'};
 const fs=()=>21;
 const IC={
 yt:'<svg viewBox="0 0 24 24" fill="#FF0000"><path fill-rule="evenodd" d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.200 0-7.800.4A2.500 2.500 0 0 0 2.400 7.200C2 8.800 2 12 2 12s0 3.200.4 4.800a2.500 2.500 0 0 0 1.800 1.800C5.800 19 12 19 12 19s6.200 0 7.800-.4a2.500 2.500 0 0 0 1.800-1.800c.4-1.600.4-4.800.4-4.800s0-3.200-.4-4.800zM10 15V9l5.200 3z"/></svg>',
@@ -818,6 +863,7 @@ function poster(){
  if(page==='slots'){P.innerHTML=lg()+slotHTML();fit();return}
  if(page==='sched'){P.innerHTML=lg()+schedHTML();fit();return}
  if(page==='top'){delete P.dataset.side;P.innerHTML=lg()+topHTML();fit();return}
+ if(page==='cert'){delete P.dataset.side;P.innerHTML=lg()+certHTML();fit();return}
  if(page==='teams'){if(TP.side)P.dataset.side=1;else delete P.dataset.side;P.innerHTML=lg()+teamsHTML();fit();return}
  const s=lim(stats());
  if(lay!=='classic'){P.innerHTML=lg()+alt(lay,s);fit();return};
@@ -938,10 +984,11 @@ $('reset').onclick=()=>{teams.forEach(t=>t.m=[]);editor()};
 ['org','t1','t2','t3','ig','yt','dc'].forEach(id=>$(id).oninput=poster);
 const TH={inferno:['#ff4a12','#b3200a'],cyber:['#7a2cff','#00e5ff'],gold:['#e8b43a','#7a5410'],toxic:['#2cff7a','#0b7a3a'],ice:['#4fb8ff','#1c5fc4'],crimson:['#ff1f4b','#7a0a22'],yellow:['#ffd400','#8a7000'],purple:['#9b3fd1','#5a1f90'],lime:['#b4f03c','#4c7a0a']};
 let theme='inferno',pat='stripes',rowst='classic',lay='classic',showLogo=true,LOGO=LOGO0,TLOGO=null;
-let page={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top'}[location.hash]||'pts';
+let page={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top','#cert':'cert'}[location.hash]||'pts';
 let SC={merge:true,title:'SCHEDULE',heads:['GROUP','IDP TIME','START TIME','MAP','DATE'],showDate:true,note:'QUALIFICATIONS BASED ON KILL+POINTS ONLY',rows:[['Group 1','6.50','7.00','Erangel'],['Group 1','7.40','7.50','Miramar'],['Group 2','7.50','8.00','Erangel'],['Group 2','8.40','8.50','Miramar'],['Group 3','8.50','9.00','Erangel'],['Group 3','9.40','9.50','Miramar']].map((a,i)=>({d:i<4?'08 Nov':'09 Nov',g:a[0],idp:a[1],start:a[2],map:a[3]}))};
 let TQ={tag:'TOP 03 PLAYERS',stat:'FINISHES',alt:true,rank:true,note:'',items:[{name:'Player 1',val:'12',img:''},{name:'Player 2',val:'10',img:''},{name:'Player 3',val:'8',img:''}]};
 let TP={tag:'GRAND FINALS',title:'TEAMS PLAYING',cols:4,size:88,names:false,side:false,note:'',teams:Array.from({length:16},(_,i)=>({name:'Team '+(i+1),logo:''}))};
+let CE={l1:'TOTAL POINTS',v1:'121',l2:'TOTAL FINISHES',v2:'101',name:'Team 1',rank:'1st',msg:'Congratulations to {team} for their spectacular performance and securing the coveted {rank} in the {tournament} with an impressive total of {kills} kills and {points} total points, they’ve not only showcased their unparalleled skill and strategy but also demonstrated their unwavering dedication to excellence',dl:'Date :',date:(()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'-'+p(d.getMonth()+1)+'-'+d.getFullYear()})(),logo:''};
 let SL={start:1,cols:1,title:'SLOT LIST',note:'',teams:Array.from({length:16},(_,i)=>({n:String(i+1),name:'Team '+(i+1)}))};
 function swatches(){$('themes').innerHTML=Object.keys(TH).map(k=>`<button data-t="${k}" title="${k}" aria-label="${k} theme" class="${k===theme?'on':''}" style="background:linear-gradient(135deg,${TH[k][0]},${TH[k][1]})"></button>`).join('')}
 $('themes').onclick=e=>{const t=e.target.dataset.t;if(!t)return;theme=t;ac2=null;swatches();poster()};
@@ -1030,7 +1077,7 @@ function lgUI(){$('lgctl').innerHTML=LS.map(g=>`<p class="hint" style="margin:10
 $('lgctl').oninput=e=>{const k=e.target.dataset.k;if(!k)return;LG[k]=+e.target.value;e.target.nextElementSibling.textContent=lgv(k,LG[k]);poster()};
 $('lgReset').onclick=()=>{Object.assign(LG,{ls:1,lx:0,ly:0,ts:1,tx:0,ty:0});lgUI();poster()};
 const lim=a=>TOPN>0?a.slice(0,TOPN):a;
-let st;const snap=()=>JSON.stringify({v:Object.fromEntries(['org','t1','t2','t3','ig','yt','dc'].map(id=>[id,$(id).value])),teams,nm,cur,theme,pat,rowst,lay,f1,f2,f3,t3Inline,fo,z,LG,ac2,PP,KM,TOPN,bgDark,showLogo,showTag,teamNameScale,showQ,QN,QNAME,SL,SC,logoCol,TP:{...TP,teams:TP.teams.map(t=>({name:t.name}))},TQ:{...TQ,items:TQ.items.map(q=>({name:q.name,val:q.val}))}});
+let st;const snap=()=>JSON.stringify({v:Object.fromEntries(['org','t1','t2','t3','ig','yt','dc'].map(id=>[id,$(id).value])),teams,nm,cur,theme,pat,rowst,lay,f1,f2,f3,t3Inline,fo,z,LG,ac2,PP,KM,TOPN,bgDark,showLogo,showTag,teamNameScale,showQ,QN,QNAME,SL,SC,logoCol,CE:{...CE,logo:''},TP:{...TP,teams:TP.teams.map(t=>({name:t.name}))},TQ:{...TQ,items:TQ.items.map(q=>({name:q.name,val:q.val}))}});
 const save=()=>{clearTimeout(st);st=setTimeout(()=>{try{localStorage.setItem('bpt',snap())}catch(_){}},400)};
 const PK='bpt_projects',prjGet=()=>{try{return JSON.parse(localStorage.getItem(PK)||'[]')}catch(_){return[]}};
 const prjSet=a=>{try{localStorage.setItem(PK,JSON.stringify(a));return true}catch(_){alert('Browser storage is full. Delete an old project and try again.');return false}};
@@ -1066,6 +1113,7 @@ if(SV){try{if(SV.logoCol)logoCol=SV.logoCol;if(SV.teamNameScale)teamNameScale=SV
  theme=SV.theme||theme;pat=SV.pat||pat;rowst=SV.rowst||rowst;lay=(SV.lay==='neon'||SV.lay==='cyber'||SV.lay==='dual'||SV.lay==='strike')?'classic':(SV.lay==='carbon'?'pro':SV.lay==='synth'?'aurora':(SV.lay||lay));f1=SV.f1||f1;f2=SV.f2||f2;fo=SV.fo==='OrgCustom'?'':(SV.fo||'');
  z=SV.z||z;while(z.length<4)z.push(1);Object.assign(LG,SV.LG||{});ac2=null;if(SV.PP&&SV.PP.length){PP.length=0;PP.push(...SV.PP)}KM=SV.KM==null?1:SV.KM;TOPN=SV.TOPN||0;bgDark=SV.bgDark==null?.4:SV.bgDark;showLogo=SV.showLogo!==false;showTag=SV.showTag!==false;showQ=!!SV.showQ;if(SV.QN!=null)QN=SV.QN;if(SV.QNAME!=null)QNAME=SV.QNAME;if(SV.SL&&Array.isArray(SV.SL.teams)){SL=Object.assign(SL,SV.SL);SL.cols=SL.cols===2?2:1}if(SV.SC&&Array.isArray(SV.SC.rows)){if(SV.TQ&&SV.TQ.items&&SV.TQ.items.length){Object.assign(TQ,SV.TQ);TQ.items=SV.TQ.items.map(q=>({name:q.name||'',val:q.val||'',img:''}))}
 if(SV.TP){const tt=SV.TP.teams;Object.assign(TP,SV.TP);TP.teams=(tt&&tt.length?tt:Array.from({length:16},(_,i)=>({name:'Team '+(i+1)}))).map(t=>({name:t.name||'',logo:''}))}
+if(SV.CE){Object.assign(CE,SV.CE);CE.logo=''}
 SC=Object.assign(SC,SV.SC);while(SC.heads.length<5)SC.heads.push('DATE');if(!Array.isArray(SC.heads)||SC.heads.length!==4)SC.heads=['GROUP','IDP TIME','START TIME','MAP']}}catch(_){}}
 [0,1,2,3].forEach(i=>$('sz'+i).value=Math.round((z[i]||1)*100));$('t3i').checked=t3Inline;$('pat').value=pat;$('rowst').value=rowst;if(lay==='neon')lay='classic';$('lay').value=lay;$('tableFont').value=Math.round(teamNameScale*100);$('tableFontVal').value=Math.round(teamNameScale*100);swatches();
 z.forEach((v,i)=>{$('sz'+i).value=Math.round(v*100)});
@@ -1133,7 +1181,7 @@ $('gen').onclick=async()=>{
  try{
   await document.fonts.ready;const c=await html2canvas($('poster'),{scale:2,backgroundColor:'#120606',useCORS:true,
    onclone:d=>{const p=d.getElementById('poster');p.style.transform='none';p.style.overflow='hidden';p.querySelectorAll('.deco').forEach(el=>{el.style.position='absolute';el.style.top='0';el.style.right='0';el.style.bottom='0';el.style.left='0';el.style.width='100%';el.style.height='100%';el.style.overflow='hidden';el.style.pointerEvents='none';el.style.zIndex=(['torn','gamer','royal','pro','aurora','grand'].includes(p.dataset.lay))?'0':'1'});p.querySelectorAll('.deco svg').forEach(svg=>{svg.style.display='block';svg.style.visibility='visible';svg.style.pointerEvents='none';if(p.dataset.lay==='torn'){/* Preserve the original 90px top/bottom anchoring of the torn-paper edges. */svg.style.zIndex='0';}else{const inline=svg.getAttribute('style')||'';svg.style.position='absolute';svg.style.left='0';svg.style.width='100%';svg.style.maxWidth='100%';svg.style.zIndex='1';svg.style.overflow='visible';if(inline.includes('bottom:')){svg.style.bottom='0';svg.style.top='auto';if(!svg.style.height)svg.style.height='90px'}else if(inline.includes('top:')){svg.style.top='0';svg.style.bottom='auto';if(!svg.style.height)svg.style.height='90px'}else if(!svg.style.height){svg.style.height='100%'}}});}});
-  const url=c.toDataURL('image/png');$('out').src=url;$('dl').href=url;$('dl').download='BGMI_'+(page==='top'?'Top_Players':page==='teams'?'Teams_Playing':page==='slots'?'Slot_List':page==='sched'?'Schedule':cur==='all'?'Overall':'Match_'+(cur+1))+'.png';openModal();
+  const blob=await new Promise(r=>c.toBlob(r,'image/png'));const url=blob?URL.createObjectURL(blob):c.toDataURL('image/png');if(window.__imgUrl&&window.__imgUrl.startsWith('blob:'))URL.revokeObjectURL(window.__imgUrl);window.__imgUrl=url;$('out').src=url;$('dl').href=url;$('dl').download='BGMI_'+(page==='cert'?'Certificate'+((CE.name||'').trim()?'_'+CE.name.trim().replace(/[^\w\-]+/g,'_').replace(/^_+|_+$/g,''):''):page==='top'?'Top_Players':page==='teams'?'Teams_Playing':page==='slots'?'Slot_List':page==='sched'?'Schedule':cur==='all'?'Overall':'Match_'+(cur+1))+'.png';openModal();
  }catch(err){alert('Could not generate the image. Take a screenshot of the preview instead.')}
  lab();
 };
@@ -1274,17 +1322,60 @@ const pasted=()=>$('slPaste').value.split(/\r?\n/).map(x=>x.trim()).filter(Boole
 $('slRep').onclick=()=>{const a=pasted();if(!a.length)return;SL.teams=a.map((name,i)=>({n:String(sstart()+i),name}));$('slPaste').value='';slotEditor()};
 $('slApp').onclick=()=>{const a=pasted();if(!a.length)return;a.forEach(name=>SL.teams.push({n:nextSlot(),name}));$('slPaste').value='';slotEditor()};
 
+/* ---------- Certificate ---------- */
+const ordinal=n=>{const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])};
+const certTok=()=>{const m={team:CE.name,rank:CE.rank,tournament:String($('t1').value||'').toUpperCase(),points:CE.v1,kills:CE.v2};return String(CE.msg||'').replace(/\{(team|rank|tournament|points|kills)\}/gi,(x,k)=>m[k.toLowerCase()]==null?'':m[k.toLowerCase()])};
+function certHTML(){
+ const L=lay,org=esc($('org').value),t1=esc($('t1').value),t2=t2h();
+ const T12=`<div class="t1">${t1}</div><div class="t2">${t2}</div>`;
+ const a=(getComputedStyle($('poster')).getPropertyValue('--a')||'').trim()||'#ff5a1f';
+ /* trapezoid drawn as an SVG background so it also appears in the downloaded image */
+ let svg;
+ if(L==='aurora')svg='<svg xmlns="http://www.w3.org/2000/svg" width="190" height="150" viewBox="0 0 190 150"><polygon points="3,3 187,3 174,147 16,147" fill="#ffffff" fill-opacity=".22" stroke="#ffffff" stroke-opacity=".6" stroke-width="2" stroke-linejoin="round"/></svg>';
+ else{const f={frost:'#0e2a6a',mono:'#111111',grand:'#d9ae42'}[L]||a;svg=`<svg xmlns="http://www.w3.org/2000/svg" width="190" height="150" viewBox="0 0 190 150"><polygon points="6,6 184,6 171,144 19,144" fill="${f}" stroke="${f}" stroke-width="12" stroke-linejoin="round"/></svg>`}
+ const bg='background:url('+('data:image/svg+xml,'+encodeURIComponent(svg)).replace(/[()']/g,c=>'%'+c.charCodeAt(0).toString(16).toUpperCase())+') 0 0/100% 100% no-repeat';
+ const vs=v=>{const n=String(v).length;return n<=3?84:n===4?72:n===5?60:48};
+ const box=(l,v)=>`<div class="cs">${String(l||'').trim()?`<div class="csl">${esc(l)}</div>`:''}<div class="csv" style="${bg}"><span style="font-size:${vs(v||'')}px">${esc(v||'')}</span></div></div>`;
+ const ini=esc((CE.name||'?').trim().split(/\s+/).map(w=>w[0]||'').join('').slice(0,3).toUpperCase());
+ const logo=`<div class="clg"><div class="tlg"><div class="tlgi"${CE.logo?` style="background:url('${CE.logo}') center/contain no-repeat"`:''}>${CE.logo?'':ini}</div></div></div>`;
+ const nmh=(CE.name||'').trim()?`<div class="cnm" style="font-size:${Math.round(38*teamNameScale)}px">${esc(CE.name)}</div>`:'';
+ const msg=certTok().trim()?`<div class="snote cmsg">${esc(certTok().trim()).replace(/\n/g,'<br>')}</div>`:'';
+ const dt=(CE.date||'').trim()?`<div class="cdt">${esc(((CE.dl||'').trim()+' '+CE.date.trim()).trim())}</div>`:'';
+ let pre,post=foot();
+ if(L==='gamer')pre=`<div class="deco">${gameDeco()}</div><div class="org"><em>//</em>${org}</div>${T12}`;
+ else if(L==='frost'){pre=`<div class="deco">${frostDeco()}${snow(34)}</div><div class="fh"><span>${org}</span></div><div class="t1">${t1}</div><div class="bn"><b></b><span>${t2}</span></div>`;post=`<div class="fbox"><b></b>${foot()}</div>`}
+ else if(NEWL.includes(L))pre=`<div class="deco">${newDeco(L)}</div>${tlh(L)}<div class="org">${org}</div>${T12}`;
+ else if(L==='torn')pre=`<div class="deco">${torn(1)}${torn(0)}</div><div class="org">${org}</div>${T12}`;
+ else if(L==='mono')pre=`<div class="org">${org}</div>${T12}`;
+ else pre=`${CDECO}<div class="org">${org}</div>${T12}`;
+ return pre+`<div class="cw"><div class="cb">${box(CE.l1,CE.v1)}${logo}${box(CE.l2,CE.v2)}</div>${nmh}${msg}${dt}</div>`+post;
+}
+const CEF={ceL1:'l1',ceV1:'v1',ceL2:'l2',ceV2:'v2',ceName:'name',ceRank:'rank',ceMsg:'msg',ceDL:'dl',ceDate:'date'};
+function certRows(){
+ const c=cur;cur='all';let s;try{s=stats()}finally{cur=c}
+ return s.map((x,i)=>{const t=teams.find(q=>(q.name||'Team')===x.name);let k=0;if(t)for(let j=0;j<nm;j++){k+=parseInt((t.m[j]||{}).k)||0}return{name:x.name,rank:i+1,pts:x.tot,kills:k}});
+}
+function certEditor(){
+ Object.keys(CEF).forEach(id=>$(id).value=CE[CEF[id]]==null?'':CE[CEF[id]]);
+ $('ceTeam').innerHTML='<option value="">Choose a team to fill the fields…</option>'+certRows().map((r,i)=>`<option value="${i}">${r.rank}. ${esc(r.name)} (${r.pts} pts, ${r.kills} kills)</option>`).join('');
+ lab();poster();
+}
+Object.keys(CEF).forEach(id=>$(id).oninput=e=>{CE[CEF[id]]=e.target.value;poster()});
+$('ceTeam').onchange=e=>{const r=certRows()[e.target.value];if(!r)return;CE.name=r.name;CE.rank=ordinal(r.rank);CE.v1=String(r.pts);CE.v2=String(r.kills);Object.keys(CEF).forEach(id=>$(id).value=CE[CEF[id]]);poster()};
+$('ceLogo').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;CE.logo=await readLogo(f);poster()};
+$('ceLogoRm').onclick=()=>{CE.logo='';poster()};
+
 /* ---------- Page switching ---------- */
 function setPage(p){
  page=p;document.body.dataset.page=p;
- [['navPts','pts'],['navSlots','slots'],['navSched','sched'],['navTeams','teams'],['navTop','top']].forEach(x=>$(x[0]).classList.toggle('on',p===x[1]));
- const T={pts:['Points table','Points table details','BGMI Points Table Generator'],slots:['Slot list','Slot list details','BGMI Slot List Generator'],sched:['Schedule','Schedule details','BGMI Schedule Generator'],teams:['Teams playing','Poster details','BGMI Teams Poster Generator'],top:['Top players','Poster details','BGMI Top Players Generator']}[p];
+ [['navPts','pts'],['navSlots','slots'],['navSched','sched'],['navTeams','teams'],['navTop','top'],['navCert','cert']].forEach(x=>$(x[0]).classList.toggle('on',p===x[1]));
+ const T={pts:['Points table','Points table details','BGMI Points Table Generator'],slots:['Slot list','Slot list details','BGMI Slot List Generator'],sched:['Schedule','Schedule details','BGMI Schedule Generator'],teams:['Teams playing','Poster details','BGMI Teams Poster Generator'],top:['Top players','Poster details','BGMI Top Players Generator'],cert:['Certificate','Certificate details','BGMI Certificate Generator']}[p];
  $('ptitle').textContent=T[0];$('gtitle').textContent=T[1];document.title=T[2];
  try{history.replaceState(null,'',p==='pts'?'#':'#'+p)}catch(_){}
- if(p==='slots')slotEditor();else if(p==='sched')schedEditor();else if(p==='teams')teamsEditor();else if(p==='top')topEditor();else editor();
+ if(p==='slots')slotEditor();else if(p==='sched')schedEditor();else if(p==='teams')teamsEditor();else if(p==='top')topEditor();else if(p==='cert')certEditor();else editor();
 }
 document.querySelector('.nav').onclick=e=>{const p=e.target.dataset.p;if(p&&p!==page)setPage(p)};
-addEventListener('hashchange',()=>{const p={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top'}[location.hash]||'pts';if(p!==page)setPage(p)});
+addEventListener('hashchange',()=>{const p={'#slots':'slots','#sched':'sched','#teams':'teams','#top':'top','#cert':'cert'}[location.hash]||'pts';if(p!==page)setPage(p)});
 /* ---------- Schedule ---------- */
 function schedHTML(){
  const L=lay,R=SC.rows,e=x=>esc(x==null?'':x),key=g=>String(g==null?'':g).trim().toLowerCase();
