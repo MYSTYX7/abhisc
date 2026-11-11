@@ -3844,6 +3844,62 @@
         font-family: "Patrick Hand", cursive;
         font-weight: 700;
       }
+      #poster[data-page="cert"] .cert-player-roster {
+        margin-top: 24px;
+        padding: 16px 18px 14px;
+        border: 1px solid rgba(241, 238, 229, 0.18);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+      #poster[data-page="cert"] .cert-player-heading {
+        margin-bottom: 10px;
+        color: #aaa9a2;
+        font: 800 10px Inter, sans-serif;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      #poster[data-page="cert"] .cert-player-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px 14px;
+        align-items: start;
+      }
+      #poster[data-page="cert"] .cert-player-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 4px;
+        min-width: 0;
+        text-align: center;
+        color: #e7e3da;
+        font: 600 14px/1.35 Inter, sans-serif;
+      }
+      #poster[data-page="cert"] .cert-player-number {
+        display: none;
+      }
+      #poster[data-page="cert"] .cert-player-name {
+        width: 100%;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      #poster[data-page="cert"] .cert-player-id {
+        color: #aaa9a2;
+        font: 500 11px Inter, sans-serif;
+        white-space: nowrap;
+      }
+      @media (max-width: 700px) {
+        #poster[data-page="cert"] .cert-player-grid {
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 6px;
+        }
+        #poster[data-page="cert"] .cert-player-row {
+          font-size: 11px;
+        }
+        #poster[data-page="cert"] .cert-player-id {
+          font-size: 9px;
+        }
+      }
       #poster[data-page="cert"] .cert-achievements {
         display: grid;
         grid-template-columns: 1.25fr 1fr 1fr;
@@ -3921,51 +3977,68 @@
         font:
           700 14px Inter,
           sans-serif;
-        color: #e7e3da;
+        color: #c5c1b7;
       }
       #poster[data-page="cert"] .cert-uuid {
         display: block;
         margin: 0;
         text-align: left;
         font:
-          700 10px Inter,
+          700 15px Inter,
           sans-serif;
         letter-spacing: 0.08em;
-        color: #c5c1b7;
+        color: #e7e3da;
         overflow-wrap: anywhere;
       }
       #poster[data-page="cert"] .cert-footer-note {
         margin-top: 5px;
         font:
-          700 9px Inter,
+          700 10px Inter,
           sans-serif;
         letter-spacing: 0.16em;
         color: #898983;
         text-transform: uppercase;
       }
+      /* Premium verification QR: framed ivory tile with a subtle accent edge. */
       #poster[data-page="cert"] .cert-qr-wrap {
-        width: 116px;
+        width: 150px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 6px;
+        gap: 9px;
+        flex: none;
       }
       #poster[data-page="cert"] .cert-qr {
-        width: 108px;
-        height: 108px;
-        padding: 0;
-        background: transparent;
-        border: 0;
+        position: relative;
+        width: 138px;
+        height: 138px;
+        /* padding: 7px; */
+        background: linear-gradient(145deg, #fffefa, #eee9dc);
+        border: 5px solid rgba(75, 75, 75, 0.8);
+        border-radius: 15px;
         display: grid;
         place-items: center;
         overflow: hidden;
+        box-shadow:
+          0 8px 22px rgba(0, 0, 0, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      }
+      #poster[data-page="cert"] .cert-qr:before {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border: 1px solid rgba(27, 25, 22, 0.09);
+        border-radius: 11px;
+        pointer-events: none;
       }
       #poster[data-page="cert"] .cert-qr svg,
       #poster[data-page="cert"] .cert-qr canvas,
       #poster[data-page="cert"] .cert-qr img {
+        position: relative;
+        z-index: 1;
         display: block !important;
-        width: 108px !important;
-        height: 108px !important;
+        width: 124px !important;
+        height: 124px !important;
         max-width: none !important;
         max-height: none !important;
         object-fit: contain;
@@ -3974,10 +4047,11 @@
         width: 100%;
         text-align: center;
         font:
-          800 11px Inter,
+          800 10px Inter,
           sans-serif;
-        letter-spacing: 0.08em;
-        color: #d9d5cb;
+        letter-spacing: 0.13em;
+        color: #e8e2d6;
+        text-transform: uppercase;
         overflow-wrap: anywhere;
       }
       @media (max-width: 960px) {
@@ -4437,6 +4511,15 @@
             <option value="CERTIFICATION OF PARTICIPATION"></option>
           </datalist>
           <label for="ceName">Team name</label><input id="ceName" />
+          <div class="grp" style="margin-top:12px">
+            <div class="lblrow"><label>Team players (up to 5)</label></div>
+            <p class="hint" style="margin:0 0 8px">Add each player's in-game name and Character ID. Empty rows will be hidden on the certificate.</p>
+            <div class="two"><input id="cePlayer1Name" placeholder="Player 1 name" aria-label="Player 1 name" /><input id="cePlayer1Id" placeholder="Character ID" aria-label="Player 1 Character ID" /></div>
+            <div class="two"><input id="cePlayer2Name" placeholder="Player 2 name" aria-label="Player 2 name" /><input id="cePlayer2Id" placeholder="Character ID" aria-label="Player 2 Character ID" /></div>
+            <div class="two"><input id="cePlayer3Name" placeholder="Player 3 name" aria-label="Player 3 name" /><input id="cePlayer3Id" placeholder="Character ID" aria-label="Player 3 Character ID" /></div>
+            <div class="two"><input id="cePlayer4Name" placeholder="Player 4 name" aria-label="Player 4 name" /><input id="cePlayer4Id" placeholder="Character ID" aria-label="Player 4 Character ID" /></div>
+            <div class="two"><input id="cePlayer5Name" placeholder="Player 5 name" aria-label="Player 5 name" /><input id="cePlayer5Id" placeholder="Character ID" aria-label="Player 5 Character ID" /></div>
+          </div>
           <label for="ceRank"
             >Position (used in the message, for example 1st)</label
           ><input id="ceRank" /> <label for="ceLogo">Team logo</label
@@ -5238,6 +5321,7 @@
           );
         })(),
         logo: "",
+        players: Array.from({ length: 5 }, () => ({ name: "", id: "" })),
       };
       let SL = {
         start: 1,
@@ -6351,9 +6435,32 @@
           oldText = b.textContent;
         b.textContent = "Generating…";
         b.disabled = true;
+        let registrationWarning = "";
         try {
-          await registerCertificate();
+          // Registration should not prevent the certificate image from being created.
+          // If the API is temporarily unavailable, still generate the image and report it.
+          try {
+            await registerCertificate();
+          } catch (registrationError) {
+            registrationWarning =
+              "The certificate image was generated, but Google Sheets registration failed: " +
+              (registrationError.message || "Unknown registration error");
+          }
+
           await document.fonts.ready;
+
+          // qr-code-styling paints its canvas asynchronously. Wait until it is
+          // present and has had a frame to finish drawing before html2canvas runs.
+          if (page === "cert" && CE.qrOn !== false && String(CE.qrText || "").trim()) {
+            const qrElement = $("certQr");
+            for (let i = 0; i < 30 && !qrElement?.querySelector("canvas"); i++) {
+              await new Promise((resolve) => setTimeout(resolve, 50));
+            }
+            await new Promise((resolve) =>
+              requestAnimationFrame(() => requestAnimationFrame(resolve)),
+            );
+          }
+
           const c = await html2canvas($("poster"), {
             scale: 2,
             backgroundColor: "#120606",
@@ -6446,6 +6553,7 @@
                         : "Match_" + (cur + 1)) +
             ".png";
           openModal();
+          if (registrationWarning) alert(registrationWarning);
         } catch (err) {
           alert(
             err.message ||
@@ -7110,6 +7218,19 @@
           CE.qrOn !== false && String(CE.qrText || "").trim()
             ? `<div class="cert-qr-wrap"><div class="cert-qr" id="certQr"></div><div class="cert-qr-caption" style="font-size:${Math.max(8, Math.min(30, Number(CE.qrFont) || 13))}px">${esc(CE.qrCaption || "")}</div></div>`
             : "";
+        const players = (Array.isArray(CE.players) ? CE.players : [])
+          .slice(0, 5)
+          .map((player, index) => ({
+            name: String(player?.name || "").trim(),
+            id: String(player?.id || "").trim(),
+            index,
+          }))
+          .filter((player) => player.name || player.id);
+        const playerRoster = players.length
+          ? `<section class="cert-player-roster"><div class="cert-player-grid" style="grid-template-columns:repeat(${players.length}, minmax(0, 1fr))">${players
+              .map((player) => `<div class="cert-player-row"><span class="cert-player-name">${esc(player.name || "—")}</span>${player.id ? `<span class="cert-player-id">(${esc(player.id)})</span>` : ""}</div>`)
+              .join("")}</div></section>`
+          : "";
         return `<div class="cert-shell">
    <div class="cert-head">
      <div class="cert-brand">${orLogo}</div>
@@ -7129,14 +7250,14 @@
        ${stat("TEAM KILLS", CE.v1)}
        ${stat("TOTAL POINTS", CE.v2)}
      </div>
+     ${playerRoster}
    </div>
    <div class="cert-footer">
      <div>
        <div class="cert-date-stack">
-         <div class="cert-date-label">Date of achievement</div>
          <div class="cert-date-row">${date ? esc(date) : "—"}</div>
          ${uuid ? `<div class="cert-uuid">CERTIFICATE ID:&nbsp; ${esc(uuid)}</div>` : ""}
-         <div class="cert-footer-note">${org ? `Issued by ${org} · ` : ""}Verify authenticity using the QR code</div>
+         <div class="cert-footer-note">${org ? `Issued by ${org}` : ""}</div>
        </div>
      </div>
      ${qr}
@@ -7149,19 +7270,19 @@
         el.innerHTML = "";
         const value = String(CE.qrText || "").trim();
         if (!value) return;
-        const size = 102;
+        const size = 124;
         if (typeof QRCodeStyling !== "undefined") {
           const qr = new QRCodeStyling({
             width: size,
             height: size,
-            type: "svg",
+            type: "canvas",
             data: value,
-            margin: 0,
+            // margin: 4,
             qrOptions: { errorCorrectionLevel: "H" },
-            backgroundOptions: { color: "rgba(0,0,0,0)" },
-            dotsOptions: { color: "#f1eee5", type: "square" },
-            cornersSquareOptions: { color: "#f1eee5", type: "square" },
-            cornersDotOptions: { color: "#f1eee5", type: "square" },
+            backgroundOptions: { color: "#f7f4ec" },
+            dotsOptions: { color: "#211f1b", type: "dot" },
+            cornersSquareOptions: { color: "#211f1b", type: "dot" },
+            cornersDotOptions: { color: "#211f1b", type: "dot" },
           });
           qr.append(el);
         }
@@ -7236,6 +7357,13 @@
           $("ceQrText").value = CE.qrText;
         }
         $("ceTz").value = CE.tz || 100;
+        CE.players = Array.isArray(CE.players) ? CE.players : [];
+        while (CE.players.length < 5) CE.players.push({ name: "", id: "" });
+        CE.players = CE.players.slice(0, 5);
+        CE.players.forEach((player, index) => {
+          $("cePlayer" + (index + 1) + "Name").value = player.name || "";
+          $("cePlayer" + (index + 1) + "Id").value = player.id || "";
+        });
         $("ceTeam").innerHTML =
           '<option value="">Choose a team to fill the fields…</option>' +
           certRows()
@@ -7254,6 +7382,17 @@
             poster();
           }),
       );
+      for (let i = 0; i < 5; i++) {
+        ["Name", "Id"].forEach((field) => {
+          const input = $("cePlayer" + (i + 1) + field);
+          input.oninput = (e) => {
+            CE.players = Array.isArray(CE.players) ? CE.players : [];
+            while (CE.players.length < 5) CE.players.push({ name: "", id: "" });
+            CE.players[i][field === "Name" ? "name" : "id"] = e.target.value;
+            poster();
+          };
+        });
+      }
       $("ceTeam").onchange = (e) => {
         const r = certRows()[e.target.value];
         if (!r) return;
